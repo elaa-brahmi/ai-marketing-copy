@@ -67,3 +67,5 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.541 0.281 293.009);
 }
+/* Hide the radio indicator dot in dropdown menu items */
+
