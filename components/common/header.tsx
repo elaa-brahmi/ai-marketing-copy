@@ -1,5 +1,5 @@
 "use client"
-import { Sparkle } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { Button } from "../ui/button";
 import * as React from "react"
 import { cn } from "@/lib/utils";
@@ -11,23 +11,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { set } from "react-hook-form";
 export default function Header(){
     const [position, setPosition] = React.useState("bottom")
     const [opened, setMenu] = React.useState(false)
     const [selected, setSelected] = React.useState("Home");
     return(
         <>
-            <div className="flex  justify-between mt-4 sticky top-0  bg-white/70 z-50 pt-3 backdrop-blur h-18 mx-3">
+            <div className="flex justify-between mt-4 sticky top-0  bg-white/70 z-50 pt-3 backdrop-blur h-18 mx-3">
                 <span className="flex items-start gap-2 py-2 mx-10  ">
                     <span className="md:h-9 md:w-9 sm:h-6 sm:w-6 rounded-xl bg-gradient-to-br from-violet-900 via-violet-500 to-rose-200 p-1">
-                        <Sparkle className="md:h-7 md:w-7 sm:w-4 sm:h-4 text-white"/>
+                        <Sparkles className="md:h-7 md:w-7 sm:w-4 sm:h-4 text-white"/>
                     </span>
                     <span>
                         <h1 className="md:text-3xl bg-gradient-to-r from-violet-700 via-blue-300 to-violet-700 font-bold bg-clip-text text-transparent">CopyAI Pro</h1>
                     </span>
                 </span>
-                <div className="hidden md:flex md:gap-3 me-7">
+                <div className="hidden md:flex md:py-auto md:gap-3 me-10">
                     <Button
                         value={selected}
                         onClick={setSelected.bind(null, "Home")}
