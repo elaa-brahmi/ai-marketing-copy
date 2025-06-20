@@ -22,7 +22,7 @@ export default function WhyChooseUsSection() {
   }, [inView]);
 
   return (
-    <div className="md:mx-10 mt-5 sm:mt-7 md:mt-17 flex flex-col justify-center items-center ">
+    <div className="md:mx-10 my-5  sm:mt-7 md:mt-17 flex flex-col justify-center items-center ">
       <div>
         <MotionH2 variants={itemVariants} className="font-bold md:text-3xl">
           Why Choose Our AI Copy Generator?

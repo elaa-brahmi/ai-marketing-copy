@@ -14,7 +14,7 @@ export default function TestimonialsSection(){
 
   useEffect(() => {
     if (inView) {
-      animate('.animated-card', { opacity: 1, y: [50, 0] }, { delay: stagger(0.1) });
+      animate('.animated-card', { opacity: 1, y: [30, 0] }, { delay: stagger(0.1) });
     }
   }, [inView]);
     return(
@@ -24,7 +24,7 @@ export default function TestimonialsSection(){
                 className="font-bold md:text-3xl text-center"
                 >Loved by Marketers Worldwide</h2>
             </div>
-            <div ref={ref} className="md:mt-15 grid sm:grid-cols-1 md:grid-cols-3 md:gap-6 ">
+            <div ref={ref} className="md:mt-15 grid sm:grid-cols-1 md:grid-cols-3 md:gap-6 gap-3 ">
                 <Card  className="animated-card border-none p-6 mx-5 bg-white/70  hover:shadow-xl transition-shadow duration-300 
                 ease-in-out flex flex-col items-start justify-center md:leading-6 sm:leading-4">
                <span className="flex" >
