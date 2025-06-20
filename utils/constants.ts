@@ -4,7 +4,8 @@ export const containerVariants={
         opacity:1,
         transition:{
             staggerChildren:0.2,
-            delayChildren:0.1
+            delayChildren:0.1,
+            
         },
 
     },
@@ -23,4 +24,10 @@ export const itemVariants={
 
     },
 }
-
+export const variants = {
+     transition:{
+            type:'linear' as const},
+    hidden: { opacity: 0, x: -200, y: 0 },
+    enter: { opacity: 1, x: 0, y: 0 },
+    exit: { opacity: 0, x: 0, y: -100 },
+}
