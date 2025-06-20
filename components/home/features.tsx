@@ -55,8 +55,8 @@ export default function FeaturesSection(){
                <Card  className=" border-none p-6 mx-5 bg-white/70  hover:shadow-xl transition-shadow duration-300 ease-in-out flex flex-col items-center justify-center">
                <span className="rounded-4xl shadow-xl bg-gradient-to-br from-violet-900 via-violet-500
                 to-rose-200 h-14 w-14 p-2 flex justify-center items-center 
-                mx-auto text-center">
-               <Sparkles className="h-12 w-12 text-white" />
+                mx-auto text-center animate-bounce">
+               <Sparkles className="h-12 w-12 text-white " />
                </span>
                 <h3 className="text-xl font-semibold  text-violet-500">AI-Powered</h3>
                 <p className=" text-gray-600 flex flex-col items-center justify-center">
