@@ -63,7 +63,7 @@ export default function WhyChooseUsSection() {
             key={i}
             className="animated-card border-none p-6 mx-5 bg-white/70 opacity-0 hover:shadow-xl hover:scale-105 transition-shadow duration-300 ease-in-out flex flex-col items-center justify-center"
           >
-            <span className="rounded-xl bg-[linear-gradient(135deg,_#f0f4ff_0%,_#e0eaff_50%,_#c7d8ff_100%)] h-12 w-12 p-2 flex justify-center items-center mx-auto text-center">
+            <span className=" rounded-xl bg-[linear-gradient(135deg,_#f0f4ff_0%,_#e0eaff_50%,_#c7d8ff_100%)] h-12 w-12 p-2 flex justify-center  mx-auto " >
               {card.icon}
             </span>
             <h3 className="mt-1 text-lg font-semibold text-gray-800 mb-2">{card.title}</h3>
