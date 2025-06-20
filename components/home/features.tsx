@@ -1,7 +1,13 @@
+"use client";
 import { CheckCircle, Sparkles } from "lucide-react";
 import { Card } from "../ui/card";
-
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 export default function FeaturesSection(){
+     useEffect(() => {
+    AOS.init({ once: false, duration: 1000, easing: 'ease-in-out' });
+  }, []);
     return(
         <div className=" bg-blue-100/40">
         <div className=" md:mx-10 md:mt-15 md:pt-15 md:pb-15 sm:pt-5  
@@ -45,8 +51,8 @@ export default function FeaturesSection(){
                         </div>  
                 </div>
             </div>
-            <div className="mt-4">
-               <Card className=" border-none p-6 mx-5 bg-white/70  hover:shadow-xl transition-shadow duration-300 ease-in-out flex flex-col items-center justify-center">
+            <div data-aos="fade-right" className="mt-4">
+               <Card  className=" border-none p-6 mx-5 bg-white/70  hover:shadow-xl transition-shadow duration-300 ease-in-out flex flex-col items-center justify-center">
                <span className="rounded-4xl shadow-xl bg-gradient-to-br from-violet-900 via-violet-500
                 to-rose-200 h-14 w-14 p-2 flex justify-center items-center 
                 mx-auto text-center">
