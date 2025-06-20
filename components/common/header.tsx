@@ -17,8 +17,8 @@ export default function Header(){
     const [selected, setSelected] = React.useState("Home");
     return(
         <>
-            <div className="flex justify-between mt-4 sticky top-0  bg-white/70
-            z-50 pt-3 backdrop-blur h-18 px-3">
+            <div className="flex justify-between sticky top-0  bg-white/70
+            z-50 pt-3  backdrop-blur h-18 px-3">
                 <span className="flex items-start gap-2 py-2 mx-10">
                     <span className="md:h-9 md:w-9 sm:h-6 sm:w-6 rounded-xl bg-gradient-to-br from-violet-900 via-violet-500 to-rose-200 p-1">
                         <Sparkles className="md:h-7 md:w-7 sm:w-4 sm:h-4 text-white"/>
