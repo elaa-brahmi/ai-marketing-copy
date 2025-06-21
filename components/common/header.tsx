@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import Link from "next/link";
 export default function Header(){
     const [position, setPosition] = React.useState("bottom")
     const [opened, setMenu] = React.useState(false)
@@ -34,15 +35,25 @@ export default function Header(){
                         onSelect={e => e.preventDefault()}
                         className={cn("rounded-xl p-7 text-xl border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="Home" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
                         >
+                             <Link
+                            href="/"
+                            >
                             Home
+                            </Link>
+                            
                         </Button>
                         <Button
                         value={selected}
+                        
                         onClick={setSelected.bind(null, "Generator")}
                         onSelect={e => e.preventDefault()}
                         className={cn(" rounded-xl p-7 text-xl border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="Generator" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
                         >
+                            <Link
+                            href="/generator"
+                            >
                             Generator
+                            </Link>
                         </Button>
                         <Button
                         value={selected}
@@ -50,7 +61,11 @@ export default function Header(){
                         onSelect={e => e.preventDefault()}
                         className={cn(" rounded-xl text-xl p-7 border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="History" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
                         >
+                            <Link
+                            href="/history"
+                            >
                             History
+                            </Link>
                         </Button>
                 </div>
                 <div className="flex md:hidden mx-3 mt-3">
