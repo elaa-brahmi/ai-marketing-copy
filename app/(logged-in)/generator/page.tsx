@@ -1,6 +1,6 @@
 "use client"
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from '../../../utils/firebaseConfig';
+import { auth } from '../../../lib/firebase/firebaseConfig';
 import React, { useState, useEffect } from 'react';
 import { redirect } from "next/navigation";
 export default function Generator(){
