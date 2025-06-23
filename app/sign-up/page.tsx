@@ -78,7 +78,7 @@ export default function SignUp() {
         <h1 className="text-center font-bold sm:text-2xl my-3 md:text-3xl">Create account</h1>
         <p className="text-gray-500">Enter your information to get started</p>
         {loading ? (
-          <IconFidgetSpinner className="animate-spin w-8 h-8 mt-5" />
+          <IconFidgetSpinner className=" mt-10 mx-auto animate-spin w-8 h-8" />
         ) : (
           <>
             <button
