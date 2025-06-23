@@ -96,22 +96,22 @@ export default function SignUp() {
               <hr className="flex-grow border-t border-gray-300" />
             </div>
             <span>
-            <Mail className="w-5 h-5  inline absolute ms-2 mt-3 text-gray-500 "/>
+            <Mail className="w-5 h-5  inline absolute ms-2 mt-5 text-gray-500 "/>
             <input
               type="text"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               placeholder="Enter your Email"
-              className="focus:outline-none focus:ring-2 focus:ring-violet-500 transition-colors duration-200 ps-9 w-xs text-xl px-4 py-2 rounded-md border border-gray-300 mb-4"
+              className="focus:outline-none focus:ring-2 py-4 focus:ring-violet-500 transition-colors duration-200 ps-9 w-xs text-xl px-4  rounded-md border border-gray-300 mb-4"
             /></span>
             <span>
-            <Lock className=" w-5 h-5 absolute ms-10 mt-3  text-gray-500 "/>
+            <Lock className=" w-5 h-5 absolute ms-10 mt-5  text-gray-500 "/>
             <input
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               placeholder="Create a Password"
-              className="focus:outline-none focus:ring-2 focus:ring-violet-500 transition-colors duration-200 ps-9  w-xs text-xl px-4 py-2 rounded-md border border-gray-300 mb-4"
+              className="focus:outline-none focus:ring-2 py-4 focus:ring-violet-500 transition-colors duration-200 ps-9  w-xs text-xl px-4  rounded-md border border-gray-300 mb-4"
             /></span>
             <button
               className="w-xs my-3 cursor-pointer bg-violet-500 text-white p-4  rounded-md font-bold"
@@ -120,7 +120,7 @@ export default function SignUp() {
             Create account
             </button>
             <p className="mt-7 text-gray-500">Already have an account? <span className="text-violet-500 cursor-pointer" >
-              <Link href="/sign-in"> Sign in</Link>
+              <Link href="/sign-in">Sign in</Link>
              </span></p>
           
           </>
