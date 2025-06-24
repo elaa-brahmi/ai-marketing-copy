@@ -84,7 +84,7 @@ export default function SignIn() {
     setLoading(false);
   };
   return (
-    <div className="bg-violet-100/60 h-auto py-5 w-xl px-5 rounded-xl mx-auto flex justify-center items-center flex-col">
+    <div className="mt-7 bg-violet-100/60 h-auto py-5 w-xl px-5 rounded-xl mx-auto flex justify-center items-center flex-col">
       <div className=" h-full w-96 text-center">
         <span  className="mx-auto h-9 w-9 flex justify-center items-center rounded bg-blue-100 ">
           <User className="h-6 w-6 text-violet-700"/>
@@ -103,6 +103,7 @@ export default function SignIn() {
               className="cursor-pointer my-3 bg-white text-black w-xs p-4 rounded-md font-bold"
               onClick={handleGoogleSignIn}
             >
+             <img src="icons8-google.svg" className="inline me-2 h-7 w-7"/>
               Continue with Google
             </button>
            {/*  <span>
