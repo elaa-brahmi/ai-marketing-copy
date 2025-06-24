@@ -5,7 +5,6 @@ export type User = {
   userId: string;
   user_email: string;
   username: string;
-  password: string; // Do NOT store plain passwords in production!
   account_status: string;
 };
 import { collection, query, where } from "firebase/firestore";
@@ -38,13 +37,5 @@ export async function getUserByEmail(email: string): Promise<boolean | null> {
   }
   return false;
 }
-export async function verifyPassword(email:string,password:string): Promise<boolean | null>{
-  const q = query(collection(db, "users"), where("user_email", "==", email),
-  where("password","==",password));
-  const querySnapshot = await getDocs(q);
-  if (!querySnapshot.empty) {
-    return true;
-  }
-  return false;
 
-}
+
