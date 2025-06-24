@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
 } from "../ui/dropdown-menu";
+import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { LogOut, Settings, User } from "lucide-react";
 import { useState, useEffect } from 'react';
@@ -37,8 +38,11 @@ export default function Header(){
     const userEmail = user?.email || "";
     const userAvatar = user?.photoURL || "";
  
-  
+    const pathname = usePathname();
+    const hideHeader = pathname === "/sign-in" || pathname === "/sign-up";
+    if (hideHeader) return null; // Don't render the header at all
     return(
+    
         <>
             <div className="flex justify-between sticky top-0  bg-white/70
             z-50 pt-3  backdrop-blur h-18 px-3">
