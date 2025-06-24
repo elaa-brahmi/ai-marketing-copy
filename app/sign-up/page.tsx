@@ -44,7 +44,8 @@ export default function SignUp() {
         else{
         await saveUser(userData);
          const token = await getIdToken(userCredential.user, true);
-        document.cookie = `firebase_id_token=${token}; path=/;`;
+         const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
+        document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
       window.location.href = "/";
         }
        
@@ -74,8 +75,9 @@ export default function SignUp() {
         else{
             await saveUser(userData);
         const token = await getIdToken(result.user, true);
-        document.cookie = `firebase_id_token=${token}; path=/;`;
-       window.location.href = "/";
+        const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
+        document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
+         window.location.href = "/";
 
         }
       }
