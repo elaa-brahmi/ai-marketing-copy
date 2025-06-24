@@ -11,10 +11,12 @@ import {
 import { signInWithGoogle } from "@/lib/firebase/auth";
 import { addDoc, serverTimestamp } from "firebase/firestore";
 import { usersCollection } from "../../lib/firebase/firebaseConfig";
-import { saveUser, getUser } from "../../lib/users";
+import { saveUser, getUser, getUserByEmail } from "../../lib/users";
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
+import { getIdToken } from "firebase/auth";
+
 export default function SignUp() {
   const router = useRouter();
   const [createUser] = useCreateUserWithEmailAndPassword(auth);
@@ -35,11 +37,18 @@ export default function SignUp() {
           password: password, // Note: storing plain password is not secure
           account_status: 'active'
         };
-        await saveUser(userData);
-        if (userCredential && userCredential.user) {
-          await sendEmailVerification(userCredential.user);
+        const userExists= await getUserByEmail(email);
+        if (userExists) {
+          alert("you already have an account , sign in ")
         }
+        else{
+        await saveUser(userData);
+         const token = await getIdToken(userCredential.user, true);
+        document.cookie = `firebase_id_token=${token}; path=/;`;
         router.push("/");
+        location.reload();
+        }
+       
       }
     } catch (e) {
       console.error("sign up error ",e);}
@@ -58,19 +67,26 @@ export default function SignUp() {
           password: '', // Google users don't have a password
           account_status: 'active'
         };
-        await saveUser(userData);
-         // Only send verification for email/password users
-       
+        const googleEmail=result.user.email as string;
+         const userExists= await getUserByEmail(googleEmail);
+        if (userExists) {
+          alert("you already have an account , sign in ")
+        }
+        else{
+            await saveUser(userData);
+        const token = await getIdToken(result.user, true);
+        document.cookie = `firebase_id_token=${token}; path=/;`;
         router.push("/");
+        location.reload();
+        }
       }
     } catch (e) {
       console.error(e);
     }
     setLoading(false);
   };
-
   return (
-    <div className="bg-violet-100/60 h-dvh py-5 w-xl px-5 rounded-xl mx-auto flex justify-center items-center flex-col">
+    <div className="bg-violet-100/60 h-auto py-5 w-xl px-5 rounded-xl mx-auto flex justify-center items-center flex-col">
       <div className=" h-full w-96 text-center">
         <span  className="mx-auto h-9 w-9 flex justify-center items-center rounded bg-blue-100 ">
           <User className="h-6 w-6 text-violet-700"/>

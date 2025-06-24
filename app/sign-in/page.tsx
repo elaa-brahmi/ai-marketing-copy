@@ -11,11 +11,12 @@ import {
 import { signInWithGoogle } from "@/lib/firebase/auth";
 import { addDoc, serverTimestamp } from "firebase/firestore";
 import { usersCollection } from "../../lib/firebase/firebaseConfig";
-import { saveUser, getUser } from "../../lib/users";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import {  getUserByEmail,verifyPassword } from "../../lib/users";
+import {  signInWithEmailAndPassword } from "firebase/auth";
 import { Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
-export default function SignUp() {
+import { getIdToken } from "firebase/auth";
+export default function SignIn() {
   const router = useRouter();
   const [createUser] = useCreateUserWithEmailAndPassword(auth);
  // const [sendEmailVerification] = useSendEmailVerification(auth);
@@ -23,29 +24,35 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const onSubmit = async () => {
     setLoading(true);
     try {
-      const userCredential = await createUser(email, password);
-      if (userCredential) {
-        const userData = {
-          userId: userCredential.user.uid,
-          user_email: userCredential.user.email || email,
-          username: email.split('@')[0], // Use email prefix as username
-          password: password, // Note: storing plain password is not secure
-          account_status: 'active'
-        };
-        await saveUser(userData);
-        if (userCredential && userCredential.user) {
-          await sendEmailVerification(userCredential.user);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      if (userCredential && userCredential.user) {
+        // Fetch user from Firestore
+       // const userFromDb = await getUser(userCredential.user.uid);
+       const userExists= await getUserByEmail(email);
+       const passwordVerified=await verifyPassword(email,password)
+        if (userExists && passwordVerified ) {
+          const token = await getIdToken(userCredential.user, true);
+          document.cookie = `firebase_id_token=${token}; path=/;`;
+          router.push("/");
+          location.reload();
+        } else {
+          alert("verify credentials.");
         }
-        router.push("/");
       }
-    } catch (e) {
-      console.error("sign up error ",e);}
+    } catch (e: any) {
+      if (e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential') {
+        alert("Invalid credentials. Please check your email and password.");
+      } else {
+        console.error("sign in error ", e);
+        alert("An unexpected error occurred. Please try again.");
+      }
+    }
     setLoading(false);
   };
-
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
@@ -58,17 +65,26 @@ export default function SignUp() {
           password: '', // Google users don't have a password
           account_status: 'active'
         };
-        await saveUser(userData);
-         // Only send verification for email/password users
+        const googleEmail=result.user.email as string;
+        const userExists= await getUserByEmail(googleEmail);
+        if (userExists) {
+          const token = await getIdToken(result.user, true);
+          document.cookie = `firebase_id_token=${token}; path=/;`;
+          router.push("/");
+          location.reload();
+        }
+        else{
+          alert("you don't have an account with google try signig up ")
+
+        }
+        //wait saveUser(userData);
        
-        router.push("/");
       }
     } catch (e) {
       console.error(e);
     }
     setLoading(false);
   };
-
   return (
     <div className="bg-violet-100/60 h-auto py-5 w-xl px-5 rounded-xl mx-auto flex justify-center items-center flex-col">
       <div className=" h-full w-96 text-center">
@@ -82,7 +98,7 @@ export default function SignUp() {
             <p className="text-gray-500">Email: demo@example.com | Password: password</p>
         </span>
         {loading ? (
-          <IconFidgetSpinner className="animate-spin w-8 h-8 mt-5" />
+          <IconFidgetSpinner className="animate-spin w-8 h-8 mt-10 mx-auto" />
         ) : (
           <>
             <button
