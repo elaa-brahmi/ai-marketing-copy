@@ -37,8 +37,7 @@ export default function SignIn() {
         if (userExists && passwordVerified ) {
           const token = await getIdToken(userCredential.user, true);
           document.cookie = `firebase_id_token=${token}; path=/;`;
-          router.push("/");
-          location.reload();
+          window.location.href = "/";
         } else {
           alert("verify credentials.");
         }
@@ -70,8 +69,7 @@ export default function SignIn() {
         if (userExists) {
           const token = await getIdToken(result.user, true);
           document.cookie = `firebase_id_token=${token}; path=/;`;
-          router.push("/");
-          location.reload();
+         window.location.href = "/";
         }
         else{
           alert("you don't have an account with google try signig up ")

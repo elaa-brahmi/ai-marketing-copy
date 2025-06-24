@@ -45,8 +45,7 @@ export default function SignUp() {
         await saveUser(userData);
          const token = await getIdToken(userCredential.user, true);
         document.cookie = `firebase_id_token=${token}; path=/;`;
-        router.push("/");
-        location.reload();
+      window.location.href = "/";
         }
        
       }
@@ -76,8 +75,8 @@ export default function SignUp() {
             await saveUser(userData);
         const token = await getIdToken(result.user, true);
         document.cookie = `firebase_id_token=${token}; path=/;`;
-        router.push("/");
-        location.reload();
+       window.location.href = "/";
+
         }
       }
     } catch (e) {

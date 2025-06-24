@@ -4,12 +4,10 @@ import { auth } from '../../../lib/firebase/firebaseConfig';
 import React, { useState, useEffect } from 'react';
 import { redirect } from "next/navigation";
 export default function Generator(){
-
-    useEffect(()=>{
+    /* useEffect(()=>{
         onAuthStateChanged(auth, (user) => {
             if (user) {
-              // User is signed in, see docs for a list of available properties
-              // https://firebase.google.com/docs/reference/js/firebase.User
+             
               console.log(user);
               const uid = user.uid;
               // ...
@@ -18,11 +16,11 @@ export default function Generator(){
               // User is signed out
               // ...
               console.log("user is logged out")
-              redirect('/sign-up');
+             window.location.href = "/sign-up";
             }
           });
          
-    }, [])
+    }, []) */
     return(
         <div>generator</div>
     )
