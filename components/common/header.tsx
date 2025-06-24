@@ -54,12 +54,12 @@ export default function Header(){
                         <h1 className="md:text-3xl bg-gradient-to-r from-violet-700 via-blue-300 to-violet-700 font-bold bg-clip-text text-transparent">CopyAI Pro</h1>
                     </span>
                 </span>
-                <div className="hidden md:flex md:py-auto md:gap-3 me-10">
+                <div className="hidden md:flex md:py-auto md:gap-3 me-10 pt-2">
                     <Button
                         value={selected}
                         onClick={setSelected.bind(null, "Home")}
                         onSelect={e => e.preventDefault()}
-                        className={cn("rounded-xl p-7 text-xl border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="Home" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
+                        className={cn("rounded-xl p-5 text-sm border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="Home" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
                         >
                              <Link
                             href="/"
@@ -73,7 +73,7 @@ export default function Header(){
                         
                         onClick={setSelected.bind(null, "Generator")}
                         onSelect={e => e.preventDefault()}
-                        className={cn(" rounded-xl p-7 text-xl border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="Generator" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
+                        className={cn(" rounded-xl p-5 text-sm border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="Generator" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
                         >
                             <Link
                             href="/generator"
@@ -85,7 +85,7 @@ export default function Header(){
                         value={selected}
                         onClick={setSelected.bind(null, "History")}
                         onSelect={e => e.preventDefault()}
-                        className={cn(" rounded-xl text-xl p-7 border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="History" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
+                        className={cn(" rounded-xl text-sm p-5 border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="History" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
                         >
                             <Link
                             href="/history"
