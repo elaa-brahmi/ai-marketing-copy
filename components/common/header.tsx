@@ -3,6 +3,8 @@ import { Sparkles } from "lucide-react";
 import { Button } from "../ui/button";
 import * as React from "react"
 import { cn } from "@/lib/utils";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from '../../lib/firebase/firebaseConfig';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,11 +13,40 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useState, useEffect } from 'react';
+import {signOut} from '../../lib/firebase/auth'
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 export default function Header(){
     const [position, setPosition] = React.useState("bottom")
     const [opened, setMenu] = React.useState(false)
     const [selected, setSelected] = React.useState("Home");
+    let authenticated=false;
+    
+    const router = useRouter();
+
+    const handleLogout = async () => {
+      await signOut();
+      router.push("/sign-up");
+      location.reload();
+    };
+   /*  useEffect(()=>{
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                authenticated=true;
+             
+              console.log(user);
+              const uid = user.uid;
+              // ...
+              console.log("uid", uid)
+            } 
+          });
+         
+    }, []) */
+    if(auth.currentUser){
+        console.log("current user ",auth.currentUser);
+        authenticated=true;
+    }
     return(
         <>
             <div className="flex justify-between sticky top-0  bg-white/70
@@ -67,6 +98,16 @@ export default function Header(){
                             History
                             </Link>
                         </Button>
+
+                    { authenticated && 
+                        <Button
+                        onClick={handleLogout}
+                        className={cn(" rounded-xl text-xl p-7 border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="History" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
+                        >
+                            log out
+                        </Button>}
+
+
                 </div>
                 <div className="flex md:hidden mx-3 mt-3">
                     <DropdownMenu
