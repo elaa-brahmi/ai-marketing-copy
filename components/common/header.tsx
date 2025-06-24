@@ -12,7 +12,11 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuItem,
+  DropdownMenuLabel,
 } from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { LogOut, Settings, User } from "lucide-react";
 import { useState, useEffect } from 'react';
 import {signOut} from '../../lib/firebase/auth'
 import { useRouter } from "next/navigation";
@@ -29,6 +33,9 @@ export default function Header(){
       await signOut();
       window.location.href="/sign-up";
     };
+    const userName = user?.displayName || user?.email?.split('@')[0] || "User";
+    const userEmail = user?.email || "";
+    const userAvatar = user?.photoURL || "";
  
   
     return(
@@ -83,13 +90,57 @@ export default function Header(){
                             </Link>
                         </Button>
 
-                    { user && 
-                        <Button
-                        onClick={handleLogout}
-                        className={cn(" rounded-xl text-xl p-7 border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="History" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
-                        >
-                            log out
-                        </Button>}
+                   
+                            { user && 
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="flex  items-center cursor-pointer space-x-3 rounded-full p-1 transition-colors hover:bg-accent focus:outline-none ">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={userAvatar} alt={userName} />
+                <AvatarFallback className="bg-gradient-to-br from-blue-500 to-violet-500 text-white">
+                  {userName
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")
+                    .toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <div className="hidden text-left sm:block">
+                <p className="text-sm font-medium leading-none">{userName}</p>
+                <p className="text-xs text-muted-foreground">{userEmail}</p>
+              </div>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56 bg-white" align="end" forceMount>
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">{userName}</p>
+                <p className="text-xs leading-none text-muted-foreground">
+                  {userEmail}
+                </p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <User className="mr-2 h-4 w-4" />
+              <span className="cursor-pointer">Profile</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Settings className="mr-2 h-4 w-4" />
+              <span className="cursor-pointer">Settings</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={handleLogout}
+              className="text-red-600 focus:text-red-600 dark:text-red-400 dark:focus:text-red-400"
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              <span className="cursor-pointer">Sign out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        }
+
 
 
                 </div>
@@ -102,7 +153,7 @@ export default function Header(){
                             className={cn(" hover:bg-violet-300 hover:cursor-pointer")}
                             > {opened? "X" : "☰"} </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className={cn("w-full transition-all duration-500 ease-in-out me-7",
+                        <DropdownMenuContent className={cn("w-full min-w-screen transition-all duration-500 ease-in-out me-7",
                             "overflow-hidden bg-white/10 backdrop-blur z-50",
                             opened ? "opacity-100 " : "opacity-0")}>
                             <DropdownMenuSeparator />
@@ -114,17 +165,17 @@ export default function Header(){
                             <DropdownMenuRadioItem
                             value="Home"
                             onSelect={e => e.preventDefault()}
-                            className={cn("block mx-3 py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="Home" && "transition-colors shadow text-indigo-700 bg-violet-200")}>Home</DropdownMenuRadioItem>
+                            className={cn("block mx-3 cursor-pointer py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="Home" && "transition-colors shadow text-indigo-700 bg-violet-200")}>Home</DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="Generator"
                             onSelect={e => e.preventDefault()}
-                            className={cn("block  mx-3  py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200 ",position=="Generator" && "shadow transition-colors text-indigo-700 bg-violet-200")}>Generator</DropdownMenuRadioItem>
+                            className={cn("block  mx-3 cursor-pointer  py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200 ",position=="Generator" && "shadow transition-colors text-indigo-700 bg-violet-200")}>Generator</DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="History"
                             onSelect={e => e.preventDefault()}
-                              className={cn("block  mx-3 py-2 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="History" && "shadow transition-colors text-indigo-700 bg-violet-200")}>History</DropdownMenuRadioItem>
+                              className={cn("block  mx-3 py-2 cursor-pointer rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="History" && "shadow transition-colors text-indigo-700 bg-violet-200")}>History</DropdownMenuRadioItem>
                                { user && <DropdownMenuRadioItem value="logout"
                             onSelect={e => e.preventDefault()}
                             onClick={handleLogout}
-                              className={cn("block  mx-3 py-2 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="History" && "shadow transition-colors text-indigo-700 bg-violet-200")}>log out</DropdownMenuRadioItem>
+                              className={cn("block cursor-pointer  mx-3 py-2 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="logout" && "shadow transition-colors text-indigo-700 bg-violet-200")}>log out</DropdownMenuRadioItem>
                                }
                             </DropdownMenuRadioGroup>
 
