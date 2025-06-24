@@ -11,7 +11,7 @@ import {
 import { signInWithGoogle } from "@/lib/firebase/auth";
 import { addDoc, serverTimestamp } from "firebase/firestore";
 import { usersCollection } from "../../lib/firebase/firebaseConfig";
-import {  getUserByEmail,verifyPassword } from "../../lib/users";
+import {  getUserByEmail } from "../../lib/users";
 import {  signInWithEmailAndPassword } from "firebase/auth";
 import { Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
@@ -33,8 +33,7 @@ export default function SignIn() {
         // Fetch user from Firestore
        // const userFromDb = await getUser(userCredential.user.uid);
        const userExists= await getUserByEmail(email);
-       const passwordVerified=await verifyPassword(email,password)
-        if (userExists && passwordVerified ) {
+        if (userExists  ) {
           const token = await getIdToken(userCredential.user, true);
           const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
           document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
@@ -62,7 +61,6 @@ export default function SignIn() {
           userId: result.user.uid,
           user_email: result.user.email || '',
           username: result.user.displayName || result.user.email?.split('@')[0] || 'user',
-          password: '', // Google users don't have a password
           account_status: 'active'
         };
         const googleEmail=result.user.email as string;

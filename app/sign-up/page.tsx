@@ -34,7 +34,6 @@ export default function SignUp() {
           userId: userCredential.user.uid,
           user_email: userCredential.user.email || email,
           username: email.split('@')[0], // Use email prefix as username
-          password: password, // Note: storing plain password is not secure
           account_status: 'active'
         };
         const userExists= await getUserByEmail(email);
@@ -64,7 +63,6 @@ export default function SignUp() {
           userId: result.user.uid,
           user_email: result.user.email || '',
           username: result.user.displayName || result.user.email?.split('@')[0] || 'user',
-          password: '', // Google users don't have a password
           account_status: 'active'
         };
         const googleEmail=result.user.email as string;
