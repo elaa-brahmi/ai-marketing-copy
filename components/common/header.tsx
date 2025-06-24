@@ -2,7 +2,7 @@
 import { Sparkles } from "lucide-react";
 import { Button } from "../ui/button";
 import * as React from "react"
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from '../../lib/firebase/firebaseConfig';
 import {
