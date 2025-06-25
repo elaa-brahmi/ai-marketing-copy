@@ -77,11 +77,11 @@ Return exactly **5 objects**, each with a description and 3 headlines. No commen
       const json = JSON.parse(rawOutput);
       return Response.json({ output: json });
     } catch (e) {
-      console.error('❌ Failed to parse JSON from AI:', rawOutput);
+      console.error(' Failed to parse JSON from AI:', rawOutput);
       return Response.json({ error: 'AI returned invalid JSON format', raw: rawOutput }, { status: 500 });
     }
   } catch (err) {
-    console.error('❌ Groq API Error:', err);
+    console.error(' Groq API Error:', err);
     return Response.json({ error: 'Groq API request failed' }, { status: 500 });
   }
 }

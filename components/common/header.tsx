@@ -3,7 +3,6 @@ import { Sparkles } from "lucide-react";
 import { Button } from "../ui/button";
 import * as React from "react"
 import { cn } from "@/utils/utils";
-import { onAuthStateChanged } from "firebase/auth";
 import { auth } from '../../lib/firebase/firebaseConfig';
 import {
   DropdownMenu,
@@ -18,7 +17,6 @@ import {
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { LogOut, Settings, User } from "lucide-react";
-import { useState, useEffect } from 'react';
 import {signOut} from '../../lib/firebase/auth'
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -27,7 +25,7 @@ export default function Header(){
     const [position, setPosition] = React.useState("bottom")
     const [opened, setMenu] = React.useState(false)
     const [selected, setSelected] = React.useState("Home");
-    const [user, loading] = useAuthState(auth);
+    const [user] = useAuthState(auth);
     const router = useRouter();
 
     const handleLogout = async () => {
