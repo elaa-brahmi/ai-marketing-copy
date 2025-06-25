@@ -3,7 +3,11 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
-
+import { useEffect } from "react";
+import { signOut } from "../lib/firebase/auth"; // your signOut function
+import AuthSyncer from "@/components/common/AuthSyncer"; 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../lib/firebase/firebaseConfig";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,6 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <AuthSyncer /> 
         <div className="relative flex min-h-screen flex-col">
           <Header />
           <main className="flex-1">{children}</main>
