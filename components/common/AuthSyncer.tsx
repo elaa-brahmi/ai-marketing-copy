@@ -1,4 +1,4 @@
-
+"use client"
 // components/common/AuthSyncer.tsx
 import { useEffect } from "react";
 import { signOut } from "../../lib/firebase/auth";

@@ -26,7 +26,6 @@ export default function Header(){
     const [opened, setMenu] = React.useState(false)
     const [selected, setSelected] = React.useState("Home");
     const [user] = useAuthState(auth);
-    const router = useRouter();
 
     const handleLogout = async () => {
       await signOut();
@@ -167,13 +166,13 @@ export default function Header(){
                             <DropdownMenuRadioItem
                             value="Home"
                             onSelect={e => e.preventDefault()}
-                            className={cn("block mx-3 cursor-pointer py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="Home" && "transition-colors shadow text-indigo-700 bg-violet-200")}>Home</DropdownMenuRadioItem>
+                            className={cn("block mx-3 cursor-pointer py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="Home" && "transition-colors shadow text-indigo-700 bg-violet-200")}><Link href="/">Home</Link></DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="Generator"
                             onSelect={e => e.preventDefault()}
-                            className={cn("block  mx-3 cursor-pointer  py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200 ",position=="Generator" && "shadow transition-colors text-indigo-700 bg-violet-200")}>Generator</DropdownMenuRadioItem>
+                            className={cn("block  mx-3 cursor-pointer  py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200 ",position=="Generator" && "shadow transition-colors text-indigo-700 bg-violet-200")}><Link href="/generator">Generator</Link></DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="History"
                             onSelect={e => e.preventDefault()}
-                              className={cn("block  mx-3 py-2 cursor-pointer rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="History" && "shadow transition-colors text-indigo-700 bg-violet-200")}>History</DropdownMenuRadioItem>
+                              className={cn("block  mx-3 py-2 cursor-pointer rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="History" && "shadow transition-colors text-indigo-700 bg-violet-200")}><Link href="/history">History</Link></DropdownMenuRadioItem>
                                { user && <DropdownMenuRadioItem value="logout"
                             onSelect={e => e.preventDefault()}
                             onClick={handleLogout}
