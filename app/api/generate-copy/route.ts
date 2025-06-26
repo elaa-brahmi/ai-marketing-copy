@@ -1,32 +1,28 @@
 import Groq from 'groq-sdk';
-
 const groq = new Groq({
   apiKey: process.env.NEXT_PUBLIC_GROQ_API_KEY
 });
-
 export async function POST(request: Request) {
   try {
     const {
       productName,
       category,
       features,
-      targetAudience = '',
+      audience = '',
       tone,
       copyType
     } = await request.json();
-
     if (!productName || !category || !features || !tone || !copyType) {
       return Response.json({ error: 'Missing required fields.' }, { status: 400 });
     }
-
     const prompt = `
 💡 You are a skilled marketing copywriter.
 
 Generate **5 creative variations** of marketing content for the product below, tailored to the specified audience and tone of voice.
 
 Each variation must include:
-📝 A compelling **Product Description**  
-🧠 Three **Catchy Headlines** (based on the selected copy type: ${copyType})
+📝 A compelling **Product Description** (use relevant icons 💡, ✨, 🚀, etc., to make it engaging).
+🧠 Three **Catchy Headlines**, each starting with an icon that matches the headline's content (e.g., "🚀 Boost Your Productivity").
 
 ---
 
@@ -34,7 +30,7 @@ Each variation must include:
 - 🏷️ Name: ${productName}
 - 🗂️ Category: ${category}
 - ✨ Features: ${features.join(', ')}
-${targetAudience ? `- 👥 Target Audience: ${targetAudience}` : ''}
+  ${audience ? `- 👥 Target Audience: ${audience}` : ''}
 - 🎭 Tone of Voice: ${tone}
 - 📣 Copy Type: ${copyType}
 
