@@ -2,6 +2,15 @@ import { db } from './firebase/firebaseConfig';
 import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
 import {auth} from './firebase/firebaseConfig'
 
+export async function getAllCopies(){
+    const user = auth.currentUser;
+    const userId = user ? user.uid : null;
+    if (!userId) throw new Error("User not authenticated");
+    const q = query(
+        collection(db, 'copies'),
+        where('userId', '==', userId));
+   return await getDocs(q);
+}
 export async function saveCopy(data: any) {
     const user = auth.currentUser;
     const userId = user ? user.uid : null;
