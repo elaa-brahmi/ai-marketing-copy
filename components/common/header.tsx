@@ -15,18 +15,26 @@ import {
   DropdownMenuLabel,
 } from "../ui/dropdown-menu";
 import { usePathname } from "next/navigation";
+import { IconFidgetSpinner } from "@tabler/icons-react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { LogOut, Settings, User } from "lucide-react";
 import {signOut} from '../../lib/firebase/auth'
-import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Link from "next/link";
+
 export default function Header(){
     const [position, setPosition] = React.useState("bottom")
     const [opened, setMenu] = React.useState(false)
     const [selected, setSelected] = React.useState("Home");
-    const [user] = useAuthState(auth);
-
+    const [user,loading] = useAuthState(auth); //returns [user, loading, error].
+    const pathname = usePathname();
+    const hideHeader = pathname === "/sign-in" || pathname === "/sign-up";
+    if(loading){
+      return (<IconFidgetSpinner className="animate-spin w-8 h-8 mt-10 mx-auto" />);
+    }
+    if (hideHeader) return null; // Don't render the header at all
+  console.log(user);
     const handleLogout = async () => {
       await signOut();
       window.location.href="/sign-up";
@@ -34,12 +42,8 @@ export default function Header(){
     const userName = user?.displayName || user?.email?.split('@')[0] || "User";
     const userEmail = user?.email || "";
     const userAvatar = user?.photoURL || "";
- 
-    const pathname = usePathname();
-    const hideHeader = pathname === "/sign-in" || pathname === "/sign-up";
-    if (hideHeader) return null; // Don't render the header at all
+
     return(
-    
         <>
             <div className="flex justify-between sticky top-0  bg-white/70
             z-50 pt-3  backdrop-blur h-18 px-3">
@@ -63,7 +67,6 @@ export default function Header(){
                             >
                             Home
                             </Link>
-                            
                         </Button>
                         <Button
                         value={selected}

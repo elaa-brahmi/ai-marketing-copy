@@ -1,26 +1,25 @@
 "use client";
 import { auth } from "../../lib/firebase/firebaseConfig";
-import { IconFidgetSpinner } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   useCreateUserWithEmailAndPassword,
-  useSendEmailVerification,
-  useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
-import { signInWithGoogle } from "@/lib/firebase/auth";
-import { addDoc, serverTimestamp } from "firebase/firestore";
-import { usersCollection } from "../../lib/firebase/firebaseConfig";
+import { signInWithGoogle } from "../../lib/firebase/auth";
+
 import {  getUserByEmail } from "../../lib/users";
 import {  signInWithEmailAndPassword } from "firebase/auth";
-import { Lock, Mail, User } from "lucide-react";
+
+import { getIdToken} from "firebase/auth";
+import {setServerCookie} from '../../components/common/AuthSyncer';
+import { User, Mail, Lock } from "lucide-react";
 import Link from "next/link";
-import { getIdToken } from "firebase/auth";
-export default function SignIn() {
+import { IconFidgetSpinner } from "@tabler/icons-react";
+
+export default function SignInPage() {
   const router = useRouter();
   const [createUser] = useCreateUserWithEmailAndPassword(auth);
  // const [sendEmailVerification] = useSendEmailVerification(auth);
-  const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,13 +29,13 @@ export default function SignIn() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       if (userCredential && userCredential.user) {
-        // Fetch user from Firestore
-       // const userFromDb = await getUser(userCredential.user.uid);
        const userExists= await getUserByEmail(email);
         if (userExists  ) {
           const token = await getIdToken(userCredential.user, true);
           const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
           document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
+          await setServerCookie();
+
           window.location.href = "/";
         } else {
           alert("verify credentials.");
@@ -55,28 +54,22 @@ export default function SignIn() {
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
-      const result = await signInWithGoogle();
-      if (result && result.user) {
-        const userData = {
-          userId: result.user.uid,
-          user_email: result.user.email || '',
-          username: result.user.displayName || result.user.email?.split('@')[0] || 'user',
-          account_status: 'active'
-        };
-        const googleEmail=result.user.email as string;
-        const userExists= await getUserByEmail(googleEmail);
+      await signInWithGoogle();
+      const user = auth.currentUser;
+      console.log("user after signing in with google",user);
+      if (user) {
+        const googleEmail = user.email as string;
+        const userExists = await getUserByEmail(googleEmail);
         if (userExists) {
-          const token = await getIdToken(result.user, true);
+          const token = await getIdToken(user, true);
           const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
           document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
-         window.location.href = "/";
-        }
-        else{
+          await setServerCookie();
+          window.location.href = "/";
+        } else {
           alert("you don't have an account with google try signig up ")
-
         }
         //wait saveUser(userData);
-       
       }
     } catch (e) {
       console.error(e);
