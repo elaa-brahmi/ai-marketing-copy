@@ -1,16 +1,35 @@
 import { db } from './firebase/firebaseConfig';
-import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
+import { collection,addDoc,serverTimestamp, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import {auth} from './firebase/firebaseConfig'
 
-export async function getAllCopies(){
-    const user = auth.currentUser;
-    const userId = user ? user.uid : null;
+export async function getAllCopies(userId: string) {
     if (!userId) throw new Error("User not authenticated");
     const q = query(
-        collection(db, 'copies'),
-        where('userId', '==', userId));
-   return await getDocs(q);
-}
+      collection(db, 'copies'),
+      where('userId', '==', userId)
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  }
+  export async function deleteCopyById(id: string) {
+    await deleteDoc(doc(db, 'copies', id));
+  }
+  export async function removeCopies(userId: string){
+    if (!userId) throw new Error("User not authenticated");
+    const q = query(
+      collection(db, 'copies'),
+      where('userId', '==', userId)
+    );
+    const querySnapshot = await getDocs(q);
+    const deletePromises = querySnapshot.docs.map((docSnap) =>
+      deleteDoc(doc(db, 'copies', docSnap.id))
+    );
+    await Promise.all(deletePromises);
+
+  }
 export async function saveCopy(data: any) {
     const user = auth.currentUser;
     const userId = user ? user.uid : null;
