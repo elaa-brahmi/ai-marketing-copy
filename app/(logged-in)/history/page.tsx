@@ -5,7 +5,7 @@ import {getAllCopies,removeCopies,deleteCopyById} from '../../../lib/copies'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { redirect } from "next/navigation";
-import { ArrowRight, BadgeCheck, Calendar, Check, Copy, History, Sparkles, Speech, Tag, Target, Trash, Zap } from "lucide-react";
+import { ArrowRight, BadgeCheck, Calendar, Check, Copy, History, Sparkles, Speech, Tag,FilePlus, Target, Trash, Zap } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { MotionDiv, MotionH1, MotionSection } from '../../../components/common/motion-wrapper'
 import {containerVariants, itemVariants} from '@/utils/constants'
@@ -82,7 +82,22 @@ export  default   function history(){
           </MotionSection>
           <div className="flex flex-col mt-7 md:mt-15 gap-8 ms-13 me-15">
             {copies && copies.length==0 &&
-            <div>no copies</div>}
+           <div className="flex flex-col items-center justify-center text-center px-4">
+           <div className="bg-white rounded-full shadow-2xl p-12 mb-6">
+             <FilePlus className="w-16 h-16 text-purple-600" />
+           </div>
+           <h2 className="text-2xl font-semibold text-purple-600 mb-2">
+             No copies generated yet
+           </h2>
+           <p className="text-gray-500 mb-4">
+             Start creating your first copy to see it appear here.
+           </p>
+           <div className="flex space-x-2">
+             <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
+             <span className="w-2 h-2 bg-purple-200 rounded-full"></span>
+             <span className="w-2 h-2 bg-purple-200 rounded-full"></span>
+           </div>
+         </div>}
            { copies && copies.length>0 && (copies).map((copy:any,index)=>(
             
              <React.Fragment key={index}>
