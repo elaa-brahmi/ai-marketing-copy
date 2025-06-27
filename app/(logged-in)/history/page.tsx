@@ -48,6 +48,8 @@ export  default   function history(){
         try {
             if(user){
             await removeCopies(user.uid);
+        fetchCopies();
+
           }
           } catch (e) {
             console.log(e);

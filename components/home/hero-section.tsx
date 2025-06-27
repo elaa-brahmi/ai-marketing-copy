@@ -2,6 +2,7 @@ import { ArrowRight, Dot, Sparkle, Star, Zap } from "lucide-react";
 import { Button } from "../ui/button";
 import { MotionDiv, MotionH1, MotionH2, MotionSection,MotionSpan } from '../common/motion-wrapper'
 import {containerVariants, itemVariants} from '@/utils/constants'
+import Link from "next/link";
 
 export default function HeroSection(){
     
@@ -40,7 +41,7 @@ export default function HeroSection(){
                 className="flex items-center p-3  bg-white/70  font-semibold 
                 rounded-full px-8 py-8 hover:shadow-lg ">
                     <Zap className="h-10 w-10 text-violet-700 animate-bounce"/>
-                    <span className="text-violet-700 md:text-xl">Start Generating Copy</span>
+                    <span className="text-violet-700 md:text-xl"><Link href="/generator">Start Generating Copy</Link></span>
                     <ArrowRight className="h-10 w-20 text-violet-700"/>
                 </Button>
                

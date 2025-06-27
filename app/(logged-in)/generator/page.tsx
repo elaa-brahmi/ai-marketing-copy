@@ -11,6 +11,8 @@ import { IconFidgetSpinner } from "@tabler/icons-react";
 import { cn } from "@/utils/utils";
 import {saveCopy} from '../../../lib/copies'
 import Link from "next/link";
+import { toast } from "sonner"
+
 export default function Generator(){
   const [output, setOutput] = useState<{description: string, headlines: string[]}[]>([]);
   const [loading, setLoading] = useState(false);
@@ -42,7 +44,7 @@ export default function Generator(){
       headlines: selected.headlines,
     };
     await saveCopy(toSave);
-  }
+    toast.success("copy saved!")}
 
   async function handleForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();

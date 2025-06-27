@@ -9,6 +9,7 @@ import { signInWithGoogle } from "../../lib/firebase/auth";
 
 import {  getUserByEmail } from "../../lib/users";
 import {  signInWithEmailAndPassword } from "firebase/auth";
+import { toast } from "sonner"
 
 import { getIdToken} from "firebase/auth";
 import {setServerCookie} from '../../components/common/AuthSyncer';
@@ -37,15 +38,19 @@ export default function SignInPage() {
           await setServerCookie();
           window.location.href = "/";
         } else {
-          alert("verify credentials.");
+          toast.error("verify credentials");
+          //alert("verify credentials.");
         }
       }
     } catch (e: any) {
       if (e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential') {
-        alert("Invalid credentials. Please check your email and password.");
+        toast.error("Invalid credentials. Please check your email and password")
+
+        //alert("Invalid credentials. Please check your email and password.");
       } else {
         console.error("sign in error ", e);
-        alert("An unexpected error occurred. Please try again.");
+        toast.error("An unexpected error occurred. Please try again")
+        //alert("An unexpected error occurred. Please try again.");
       }
     }
     setLoading(false);
@@ -66,7 +71,8 @@ export default function SignInPage() {
           await setServerCookie();
           window.location.href = "/";
         } else {
-          alert("you don't have an account with google try signig up ")
+          toast.error("you don't have an account with google try signing up")
+         // alert("you don't have an account with google try signig up ")
         }
         //wait saveUser(userData);
       }

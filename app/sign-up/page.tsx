@@ -16,6 +16,7 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/
 import { Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
 import { getIdToken } from "firebase/auth";
+import { toast } from "sonner"
 
 export default function SignUp() {
   const router = useRouter();
@@ -38,7 +39,8 @@ export default function SignUp() {
         };
         const userExists= await getUserByEmail(email);
         if (userExists) {
-          alert("you already have an account , sign in ")
+          toast.warning("you already have an account , sign in");
+         // alert("you already have an account , sign in ")
         }
         else{
         await saveUser(userData);
@@ -68,7 +70,9 @@ export default function SignUp() {
         const googleEmail=result.user.email as string;
          const userExists= await getUserByEmail(googleEmail);
         if (userExists) {
-          alert("you already have an account , sign in ")
+          console.log("usre exists")
+          toast.warning("you already have an account , sign in ")
+         // alert("you already have an account , sign in ")
         }
         else{
             await saveUser(userData);

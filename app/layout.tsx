@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
-
+import { Toaster } from "sonner";
 import AuthSyncer from "@/components/common/AuthSyncer"; 
 
 const geistSans = Geist({
@@ -32,7 +32,7 @@ export default function RootLayout({
       <AuthSyncer /> 
         <div className="relative flex min-h-screen flex-col">
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1"><Toaster />{children}</main>
           
           <Footer/>
         </div>
