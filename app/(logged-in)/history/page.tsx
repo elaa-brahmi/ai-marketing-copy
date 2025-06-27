@@ -93,9 +93,9 @@ export  default   function history(){
              Start creating your first copy to see it appear here.
            </p>
            <div className="flex space-x-2">
-             <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
-             <span className="w-2 h-2 bg-purple-200 rounded-full"></span>
-             <span className="w-2 h-2 bg-purple-200 rounded-full"></span>
+             <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
+             <span className="w-2 h-2 bg-purple-200 rounded-full animate-pulse [animation-delay:.2s]"></span>
+             <span className="w-2 h-2 bg-purple-200 rounded-full animate-pulse [animation-delay:.4s]"></span>
            </div>
          </div>}
            { copies && copies.length>0 && (copies).map((copy:any,index)=>(
