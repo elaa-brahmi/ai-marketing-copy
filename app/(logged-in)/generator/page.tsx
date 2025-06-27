@@ -10,6 +10,7 @@ import {containerVariants, itemVariants} from '@/utils/constants'
 import { IconFidgetSpinner } from "@tabler/icons-react";
 import { cn } from "@/utils/utils";
 import {saveCopy} from '../../../lib/copies'
+import Link from "next/link";
 export default function Generator(){
   const [output, setOutput] = useState<{description: string, headlines: string[]}[]>([]);
   const [loading, setLoading] = useState(false);
@@ -94,7 +95,7 @@ export default function Generator(){
         variants={containerVariants}
         initial="hidden"
         animate="visible" className=" md:flex md:justify-between  mt-7  overflow-x-hidden">
-          <div className="flex flex-col items-start justify-start ms-10">
+          <div className="flex flex-col items-start justify-start ms-13">
           <MotionDiv
                 variants={itemVariants} className=" flex rounded-3xl bg-gradient-to-r from-violet-100/30 via-blue-200/50 to-blue-300/50 px-4 p-2 ">
                         <Sparkles className="h-6 w-6 rounded-xl text-indigo-700 inline"/>
@@ -108,7 +109,8 @@ export default function Generator(){
           <div className="md:me-15">
             <Button className="rounded-lg sm:mt-10 sm:ms-10 p-3 cursor-pointer" >
               <BadgeCheck className="inline me-2" />
-              View History</Button>
+              <Link href="/history">View History</Link>
+              </Button>
           </div>
         </MotionSection>
         <div className="flex flex-col md:flex-row ms-10 mt-10 gap-4 sm:gap-7">
