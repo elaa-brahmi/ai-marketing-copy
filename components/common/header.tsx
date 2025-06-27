@@ -26,7 +26,6 @@ import Link from "next/link";
 export default function Header(){
     const [position, setPosition] = React.useState("bottom")
     const [opened, setMenu] = React.useState(false)
-    const [selected, setSelected] = React.useState("Home");
     const [user,loading] = useAuthState(auth); //returns [user, loading, error].
     const pathname = usePathname();
     const hideHeader = pathname === "/sign-in" || pathname === "/sign-up";
@@ -34,7 +33,7 @@ export default function Header(){
       return (<IconFidgetSpinner className="animate-spin w-8 h-8 mt-10 mx-auto" />);
     }
     if (hideHeader) return null; // Don't render the header at all
-  console.log(user);
+  //console.log(user);
     const handleLogout = async () => {
       await signOut();
       window.location.href="/sign-up";
@@ -57,45 +56,21 @@ export default function Header(){
                 </span>
                 <div className="hidden md:flex md:py-auto md:gap-3 me-10 pt-2">
                     <Button
-                        value={selected}
-                        onClick={setSelected.bind(null, "Home")}
-                        onSelect={e => e.preventDefault()}
-                        className={cn("rounded-xl p-5 text-sm border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="Home" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
+                        className={cn("rounded-xl p-5 text-sm border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200", pathname=="/" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
                         >
-                             <Link
-                            href="/"
-                            >
-                            Home
-                            </Link>
-                        </Button>
-                        <Button
-                        value={selected}
-                        
-                        onClick={setSelected.bind(null, "Generator")}
-                        onSelect={e => e.preventDefault()}
-                        className={cn(" rounded-xl p-5 text-sm border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="Generator" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
+                             <Link href="/">Home</Link>
+                    </Button>
+                    <Button
+                        className={cn("rounded-xl p-5 text-sm border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200", pathname==="/generator" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
                         >
-                            <Link
-                            href="/generator"
-                            >
-                            Generator
-                            </Link>
-                        </Button>
-                        <Button
-                        value={selected}
-                        onClick={setSelected.bind(null, "History")}
-                        onSelect={e => e.preventDefault()}
-                        className={cn(" rounded-xl text-sm p-5 border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200",selected=="History" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
+                            <Link href="/generator">Generator</Link>
+                    </Button>
+                    <Button
+                        className={cn("rounded-xl text-sm p-5 border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200", pathname==="/history" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
                         >
-                            <Link
-                            href="/history"
-                            >
-                            History
-                            </Link>
-                        </Button>
-
-                   
-                            { user && 
+                            <Link href="/history">History</Link>
+                    </Button>
+                    { user && 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex  items-center cursor-pointer space-x-3 rounded-full p-1 transition-colors hover:bg-accent focus:outline-none ">
@@ -144,9 +119,6 @@ export default function Header(){
           </DropdownMenuContent>
         </DropdownMenu>
         }
-
-
-
                 </div>
                 <div className="flex md:hidden mx-3 mt-3">
                     <DropdownMenu
@@ -159,7 +131,7 @@ export default function Header(){
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className={cn("w-full min-w-screen transition-all duration-500 ease-in-out me-7",
                             "overflow-hidden bg-white/10 backdrop-blur z-50",
-                            opened ? "opacity-100 " : "opacity-0")}>
+                            opened ? "opacity-100 " : "opacity-0")}> 
                             <DropdownMenuSeparator />
                             <hr className={cn("w-full text-gray-300 pb-2  ",opened ? "block" : "hidden")}></hr>
                             <DropdownMenuRadioGroup value={position}
@@ -169,22 +141,22 @@ export default function Header(){
                             <DropdownMenuRadioItem
                             value="Home"
                             onSelect={e => e.preventDefault()}
-                            className={cn("block mx-3 cursor-pointer py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="Home" && "transition-colors shadow text-indigo-700 bg-violet-200")}><Link href="/">Home</Link></DropdownMenuRadioItem>
+                            className={cn("block mx-3 cursor-pointer py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",pathname==="/" && "transition-colors shadow text-indigo-700 bg-violet-200")}
+                            ><Link href="/">Home</Link></DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="Generator"
                             onSelect={e => e.preventDefault()}
-                            className={cn("block  mx-3 cursor-pointer  py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200 ",position=="Generator" && "shadow transition-colors text-indigo-700 bg-violet-200")}><Link href="/generator">Generator</Link></DropdownMenuRadioItem>
+                            className={cn("block  mx-3 cursor-pointer  py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200 ",pathname==="/generator" && "shadow transition-colors text-indigo-700 bg-violet-200")}
+                            ><Link href="/generator">Generator</Link></DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="History"
                             onSelect={e => e.preventDefault()}
-                              className={cn("block  mx-3 py-2 cursor-pointer rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="History" && "shadow transition-colors text-indigo-700 bg-violet-200")}><Link href="/history">History</Link></DropdownMenuRadioItem>
+                              className={cn("block  mx-3 py-2 cursor-pointer rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",pathname==="/history" && "shadow transition-colors text-indigo-700 bg-violet-200")}
+                            ><Link href="/history">History</Link></DropdownMenuRadioItem>
                                { user && <DropdownMenuRadioItem value="logout"
                             onSelect={e => e.preventDefault()}
                             onClick={handleLogout}
                               className={cn("block cursor-pointer  mx-3 py-2 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="logout" && "shadow transition-colors text-indigo-700 bg-violet-200")}>log out</DropdownMenuRadioItem>
                                }
                             </DropdownMenuRadioGroup>
-
-
-                          
                         </DropdownMenuContent>
                     </DropdownMenu>
 

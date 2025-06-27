@@ -29,6 +29,8 @@ export default function SignInPage() {
     setLoading(true);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log(userCredential);
+
       if (userCredential && userCredential.user) {
        const userExists= await getUserByEmail(email);
         if (userExists  ) {
@@ -65,6 +67,7 @@ export default function SignInPage() {
         const googleEmail = user.email as string;
         const userExists = await getUserByEmail(googleEmail);
         if (userExists) {
+          console.log("userExists", userExists)
           const token = await getIdToken(user, true);
           const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
           document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
