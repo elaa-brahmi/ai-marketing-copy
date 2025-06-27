@@ -10,6 +10,7 @@ import { Button } from "../../../components/ui/button";
 import { MotionDiv, MotionH1, MotionSection } from '../../../components/common/motion-wrapper'
 import {containerVariants, itemVariants} from '@/utils/constants'
 import {formatDistanceToNow} from 'date-fns'
+import { toast } from "sonner"
 
 export  default   function history(){
     const [user, loading, error] = useAuthState(auth);
@@ -33,6 +34,7 @@ export  default   function history(){
         console.log("delete");
         await deleteCopyById(id);
         fetchCopies();
+        toast.success("copy deleted")
       }
       function copyText(){
         const el=document.getElementById("TextToCopy");
