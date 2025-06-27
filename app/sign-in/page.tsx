@@ -35,7 +35,6 @@ export default function SignInPage() {
           const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
           document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
           await setServerCookie();
-
           window.location.href = "/";
         } else {
           alert("verify credentials.");
