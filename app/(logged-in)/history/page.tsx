@@ -146,8 +146,8 @@ export  default   function history(){
                     </div>
                 </div>
                 {index !== copies.length - 1 && (
-      <hr className="my-8 border-t border-gray-300" />
-    )}
+                <hr className="my-8 border-t border-gray-300" />
+                )}
                 </React.Fragment>
 
             ))}
