@@ -12,7 +12,7 @@ import {  signInWithEmailAndPassword } from "firebase/auth";
 import { toast } from "sonner"
 
 import { getIdToken} from "firebase/auth";
-import {setServerCookie} from '../../components/common/AuthSyncer';
+//import {setServerCookie} from '../../components/common/AuthSyncer';
 import { User, Mail, Lock } from "lucide-react";
 import Link from "next/link";
 import { IconFidgetSpinner } from "@tabler/icons-react";
@@ -37,22 +37,19 @@ export default function SignInPage() {
           const token = await getIdToken(userCredential.user, true);
           const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
           document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
-          await setServerCookie();
+         // await setServerCookie();
           window.location.href = "/";
         } else {
           toast.error("verify credentials");
-          //alert("verify credentials.");
         }
       }
     } catch (e: any) {
       if (e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential') {
         toast.error("Invalid credentials. Please check your email and password")
 
-        //alert("Invalid credentials. Please check your email and password.");
       } else {
         console.error("sign in error ", e);
         toast.error("An unexpected error occurred. Please try again")
-        //alert("An unexpected error occurred. Please try again.");
       }
     }
     setLoading(false);
@@ -71,13 +68,11 @@ export default function SignInPage() {
           const token = await getIdToken(user, true);
           const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
           document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
-          await setServerCookie();
+          //await setServerCookie();
           window.location.href = "/";
         } else {
           toast.error("you don't have an account with google try signing up")
-         // alert("you don't have an account with google try signig up ")
         }
-        //wait saveUser(userData);
       }
     } catch (e) {
       console.error(e);
