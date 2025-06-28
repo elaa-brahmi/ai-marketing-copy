@@ -21,15 +21,14 @@ export default function AuthSyncer() {
   return null;
 }
 
-export async function setServerCookie() {
+/* export async function setServerCookie() {
   const user = auth.currentUser;
   if (user) {
     const token = await getIdToken(user, true);
-    // Send token to your server to set the cookie
     await fetch("/api/set-cookie", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token }),
     });
   }
-}
+} */
