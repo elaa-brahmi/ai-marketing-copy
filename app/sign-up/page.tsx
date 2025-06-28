@@ -46,8 +46,8 @@ export default function SignUp() {
         await saveUser(userData);
          const token = await getIdToken(userCredential.user, true);
          const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
-        document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
-      window.location.href = "/";
+          document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
+          window.location.href = "/";
         }
        
       }
@@ -75,11 +75,11 @@ export default function SignUp() {
          // alert("you already have an account , sign in ")
         }
         else{
-            await saveUser(userData);
-        const token = await getIdToken(result.user, true);
-        const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
-        document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
-         window.location.href = "/";
+          await saveUser(userData);
+          const token = await getIdToken(result.user, true);
+          const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
+          document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
+          window.location.href = "/";
 
         }
       }
