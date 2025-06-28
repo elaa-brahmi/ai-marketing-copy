@@ -32,8 +32,10 @@ export default function Header(){
     if(loading){
       return (<IconFidgetSpinner className="animate-spin w-8 h-8 mt-10 mx-auto" />);
     }
-    if (hideHeader) return null; // Don't render the header at all
-  //console.log(user);
+    if(user){
+      console.log("user authenticated",user);
+    }
+    if (hideHeader) return null; 
     const handleLogout = async () => {
       await signOut();
       window.location.href="/sign-up";
@@ -136,23 +138,19 @@ export default function Header(){
                             <hr className={cn("w-full text-gray-300 pb-2  ",opened ? "block" : "hidden")}></hr>
                             <DropdownMenuRadioGroup value={position}
                             onValueChange={setPosition}
-                            onSelect={e => e.preventDefault()}
                             className="flex-1 justify-center items-center">
                             <DropdownMenuRadioItem
                             value="Home"
-                            onSelect={e => e.preventDefault()}
                             className={cn("block mx-3 cursor-pointer py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",pathname==="/" && "transition-colors shadow text-indigo-700 bg-violet-200")}
-                            ><Link href="/">Home</Link></DropdownMenuRadioItem>
+                            ><Link href="/">Home</Link>
+                            </DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="Generator"
-                            onSelect={e => e.preventDefault()}
                             className={cn("block  mx-3 cursor-pointer  py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200 ",pathname==="/generator" && "shadow transition-colors text-indigo-700 bg-violet-200")}
                             ><Link href="/generator">Generator</Link></DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="History"
-                            onSelect={e => e.preventDefault()}
                               className={cn("block  mx-3 py-2 cursor-pointer rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",pathname==="/history" && "shadow transition-colors text-indigo-700 bg-violet-200")}
                             ><Link href="/history">History</Link></DropdownMenuRadioItem>
                                { user && <DropdownMenuRadioItem value="logout"
-                            onSelect={e => e.preventDefault()}
                             onClick={handleLogout}
                               className={cn("block cursor-pointer  mx-3 py-2 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="logout" && "shadow transition-colors text-indigo-700 bg-violet-200")}>log out</DropdownMenuRadioItem>
                                }
