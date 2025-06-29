@@ -1,4 +1,4 @@
-import { ArrowRight, Dot, Sparkle, Star, Zap } from "lucide-react";
+import { ArrowRight, Dot, Sparkles, Star, Zap } from "lucide-react";
 import { Button } from "../ui/button";
 import { MotionDiv, MotionH1, MotionH2, MotionSection,MotionSpan } from '../common/motion-wrapper'
 import {containerVariants, itemVariants} from '@/utils/constants'
@@ -14,7 +14,7 @@ export default function HeroSection(){
              <MotionDiv
                 variants={itemVariants} className="flex rounded-3xl bg-gradient-to-r from-violet-100/50 via-violet-200/50 to-violet-300/50 px-4 p-2 m-4">
                 <span className="h-8 w-8 rounded-xl  p-1">
-                        <Sparkle className="h-6 w-6 text-indigo-700"/>
+                        <Sparkles className="h-6 w-6 text-indigo-700"/>
                     </span>
                     <span>
                         <p className=" ms-3 font-semibold text-indigo-700">AI-Powered Marketing Copy Generator</p>
