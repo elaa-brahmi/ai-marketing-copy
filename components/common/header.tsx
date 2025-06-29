@@ -26,16 +26,34 @@ import Link from "next/link";
 export default function Header(){
     const [position, setPosition] = React.useState("bottom")
     const [opened, setMenu] = React.useState(false)
-    const [user,loading] = useAuthState(auth); //returns [user, loading, error].
+    const [user, loading, error] = useAuthState(auth); //returns [user, loading, error].
     const pathname = usePathname();
     const hideHeader = pathname === "/sign-in" || pathname === "/sign-up";
+    
+    // Debug logging
+    React.useEffect(() => {
+      console.log("Auth state changed:", { user, loading, error });
+      if (error) {
+        console.error("Auth error:", error);
+      }
+    }, [user, loading, error]);
+    
     if(loading){
       return (<IconFidgetSpinner className="animate-spin w-8 h-8 mt-10 mx-auto" />);
     }
-    if(user){
-      console.log("user authenticated",user);
+    
+    if(error){
+      console.error("Authentication error:", error);
     }
-    if (hideHeader) return null; 
+    
+    if(user){
+      console.log("user authenticated", user);
+    }
+    else{
+      console.log("user not authenticated");
+    }
+    
+    if (hideHeader) return null;
     const handleLogout = async () => {
       await signOut();
       window.location.href="/sign-up";
@@ -101,15 +119,8 @@ export default function Header(){
                 </p>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
-              <span className="cursor-pointer">Profile</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings className="mr-2 h-4 w-4" />
-              <span className="cursor-pointer">Settings</span>
-            </DropdownMenuItem>
+           
+           
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={handleLogout}
