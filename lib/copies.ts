@@ -1,12 +1,13 @@
 import { db } from './firebase/firebaseConfig';
-import { collection,addDoc,serverTimestamp, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection,addDoc,serverTimestamp, query, where, getDocs, deleteDoc, doc, orderBy } from 'firebase/firestore';
 import {auth} from './firebase/firebaseConfig'
 
 export async function getAllCopies(userId: string) {
     if (!userId) throw new Error("User not authenticated");
     const q = query(
       collection(db, 'copies'),
-      where('userId', '==', userId)
+      where('userId', '==', userId),
+      orderBy('createdAt', 'desc')
     );
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({

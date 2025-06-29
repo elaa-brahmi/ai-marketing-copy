@@ -108,7 +108,7 @@ export default function Generator(){
                 className="font-bold md:text-3xl text-2xl my-5 text-center"> Create Compelling Marketing Copy</MotionH1>
             <p className="text-gray-700">Fill in your product details and let AI create high-converting marketing copy for you</p>
           </div>
-          <div className="md:me-15">
+          <div className="ms-13 md:me-15">
             <Button className="rounded-lg sm:mt-10 sm:ms-10 p-3 cursor-pointer" >
               <BadgeCheck className="inline me-2" />
               <Link href="/history">View History</Link>
