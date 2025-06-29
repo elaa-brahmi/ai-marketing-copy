@@ -6,8 +6,7 @@ export async function getAllCopies(userId: string) {
     if (!userId) throw new Error("User not authenticated");
     const q = query(
       collection(db, 'copies'),
-      where('userId', '==', userId),
-      orderBy('createdAt', 'desc')
+      where('userId', '==', userId)
     );
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({
