@@ -8,8 +8,11 @@ export function middleware(request: NextRequest) {
     console.log('No token found, redirecting to sign-up');
     return NextResponse.redirect(new URL('/sign-up', request.url));
   }
+  if(idToken){
+    return NextResponse.redirect(new URL('/generator', request.url));
+  }
   return NextResponse.next();
 }
 export const config = {
-  matcher: ['/generator/:path*', '/generator', '/history/:path*', '/history'],
+  matcher: ['/generator/:path*', '/generator', '/history/:path*', '/history','/sign-up', '/sign-in'],
 };
