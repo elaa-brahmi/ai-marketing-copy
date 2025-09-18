@@ -1,13 +1,11 @@
 "use client";
 import { auth } from "../../lib/firebase/firebaseConfig";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
-  useCreateUserWithEmailAndPassword,
+  useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
-import { signInWithGoogle } from "../../lib/firebase/auth";
 
-import {  getUserByEmail } from "../../lib/users";
+import {  getUserByEmail, saveUser } from "../../lib/users";
 import {  signInWithEmailAndPassword } from "firebase/auth";
 import { toast } from "sonner"
 import { getIdToken} from "firebase/auth";
@@ -16,67 +14,82 @@ import Link from "next/link";
 import { IconFidgetSpinner } from "@tabler/icons-react";
 
 export default function SignInPage() {
-  const router = useRouter();
- // const [sendEmailVerification] = useSendEmailVerification(auth);
+  const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = async () => {
-    setLoading(true);
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log(userCredential);
-      setEmail('');
-      setPassword('');
-      if (userCredential && userCredential.user) {
-       const userExists= await getUserByEmail(email);
-        if (userExists  ) {
-          const token = await getIdToken(userCredential.user, true);
-          const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
-          document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
-         // await setServerCookie();
-          window.location.href = "/";
-        } else {
-          toast.error("verify credentials");
-        }
-      }
-    } catch (e: any) {
-      if (e.code === 'auth/wrong-password' || e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential') {
-        toast.error("Invalid credentials. Please check your email and password")
+const onSubmit = async () => {
+  setLoading(true);
+  try {
+    // 1. Sign in the user using Firebase Auth
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
+    setEmail('');
+    setPassword('');
+
+    if (userCredential?.user) {
+      // 2. Generate secure ID token
+      const token = await getIdToken(userCredential.user, true);
+      const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours
+
+      // 3. Save token to cookie
+      document.cookie = `firebase_id_token=${token}; expires=${expires}; path=/; Secure; SameSite=Strict`;
+
+      // 4. Redirect to dashboard
+      window.location.href = "/";
+    }
+  } catch (e: any) {
+    if (
+      e.code === "auth/wrong-password" ||
+      e.code === "auth/user-not-found" ||
+      e.code === "auth/invalid-credential"
+    ) {
+      toast.error("Invalid credentials. Please check your email and password");
+    } else {
+      console.error("Sign in error:", e);
+      toast.error("An unexpected error occurred. Please try again");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
+
+const handleGoogleSignIn = async () => {
+  setLoading(true);
+  try {
+    const result = await signInWithGoogle();
+
+    if (result && result.user) {
+      const { uid, email, displayName } = result.user;
+
+      const userData = {
+        userId: uid,
+        user_email: email || "",
+        username: displayName || email?.split("@")[0] || "user",
+        account_status: "active",
+      };
+
+      // Save to Firestore (only if new)
+      const wasCreated = await saveUser(userData);
+
+      if (wasCreated) {
       } else {
-        console.error("sign in error ", e);
-        toast.error("An unexpected error occurred. Please try again")
       }
+
+      // Save token to cookie
+      const token = await result.user.getIdToken(true);
+      const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString();
+      document.cookie = `firebase_id_token=${token}; expires=${expires}; path=/; SameSite=Lax; Secure`;
+
+      window.location.href = "/";
     }
+  } catch (e) {
+    console.error("Google Sign-In Error:", e);
+  } finally {
     setLoading(false);
-  };
-  const handleGoogleSignIn = async () => {
-    setLoading(true);
-    try {
-      await signInWithGoogle();
-      const user = auth.currentUser;
-      console.log("user after signing in with google",user);
-      if (user) {
-        const googleEmail = user.email as string;
-        const userExists = await getUserByEmail(googleEmail);
-        if (userExists) {
-          console.log("userExists", userExists)
-          const token = await getIdToken(user, true);
-          const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
-          document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
-          //await setServerCookie();
-          window.location.href = "/";
-        } else {
-          toast.error("you don't have an account with google try signing up")
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
-    setLoading(false);
-  };
+  }
+};
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
       <div className="w-full max-w-md mx-auto">

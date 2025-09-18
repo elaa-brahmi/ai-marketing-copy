@@ -18,39 +18,22 @@ import { usePathname } from "next/navigation";
 import { IconFidgetSpinner } from "@tabler/icons-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LogOut, Settings, User } from "lucide-react";
+import { LogOut } from "lucide-react";
 import {signOut} from '../../lib/firebase/auth'
 import { useAuthState } from "react-firebase-hooks/auth";
 import Link from "next/link";
 
-export default function Header(){
+const Header = () => {
     const [position, setPosition] = React.useState("bottom")
     const [opened, setMenu] = React.useState(false)
     const [user, loading, error] = useAuthState(auth); //returns [user, loading, error].
     const pathname = usePathname();
     const hideHeader = pathname === "/sign-in" || pathname === "/sign-up";
     
-    // Debug logging
-    React.useEffect(() => {
-      console.log("Auth state changed:", { user, loading, error });
-      if (error) {
-        console.error("Auth error:", error);
-      }
-    }, [user, loading, error]);
+
     
     if(loading){
       return (<IconFidgetSpinner className="animate-spin w-8 h-8 mt-10 mx-auto" />);
-    }
-    
-    if(error){
-      console.error("Authentication error:", error);
-    }
-    
-    if(user){
-      console.log("user authenticated", user);
-    }
-    else{
-      console.log("user not authenticated");
     }
     
     if (hideHeader) return null;
@@ -174,3 +157,4 @@ export default function Header(){
         </>
     )
 }
+export default React.memo(Header);

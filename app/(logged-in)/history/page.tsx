@@ -1,11 +1,9 @@
 "use client"
 import { auth } from '../../../lib/firebase/firebaseConfig';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {getAllCopies,removeCopies,deleteCopyById} from '../../../lib/copies'
 import { useAuthState } from "react-firebase-hooks/auth";
-import { onAuthStateChanged } from "firebase/auth";
-import { redirect } from "next/navigation";
-import { ArrowRight, BadgeCheck, Calendar, Check, Copy, History, Sparkles, Speech, Tag,FilePlus, Target, Trash, Zap } from "lucide-react";
+import { Calendar, Check, Copy, History, Speech, Tag,FilePlus, Trash } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { MotionDiv, MotionH1, MotionSection } from '../../../components/common/motion-wrapper'
 import {containerVariants, itemVariants} from '@/utils/constants'
@@ -13,46 +11,49 @@ import {formatDistanceToNow} from 'date-fns'
 import { toast } from "sonner"
 
 export  default   function history(){
-    const [user, loading, error] = useAuthState(auth);
+    const [user] = useAuthState(auth);
     const [copied,setCopied]=useState(false);
     const [copies, setCopies] = useState<any[]>([]);
-  
-        async function fetchCopies() {
-          try {
-            if(user){
-            const result = await getAllCopies(user.uid);
-            console.log(result);
-            setCopies(result);}
-          } catch (e) {
-            // handle error
-          }
+    useEffect(() => {
+    if (user) {
+      fetchCopies();
+    }
+  }, [user]);
+    async function fetchCopies() {
+      try {
+        if(user){
+          const result = await getAllCopies(user.uid);
+          setCopies(result);}
+        } catch (e) {
+          setCopies([])
         }
-        useEffect(() => {
-            if (user) fetchCopies();
-          }, [user]);
-      async function deleteCopy(id:string){
-        console.log("delete");
+    }
+    async function deleteCopy(id:string){
         await deleteCopyById(id);
         fetchCopies();
         toast.success("copy deleted")
+    }
+     const copyText = () => {
+      const el=document.getElementById("TextToCopy");
+      if(el){
+      navigator.clipboard.writeText(el?.innerText)
+      
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        })
+      
+        .catch(err => console.error("Failed to copy:", err));
       }
-      function copyText(){
-        const el=document.getElementById("TextToCopy");
-        if(el){
-            const text=el.innerText;
-            navigator.clipboard.writeText(text);
-            setCopied(true);
-        }
-      }
+  };
       async function removeAll(){
         try {
             if(user){
             await removeCopies(user.uid);
-        fetchCopies();
+            fetchCopies();
 
           }
           } catch (e) {
-            console.log(e);
           }
         
 

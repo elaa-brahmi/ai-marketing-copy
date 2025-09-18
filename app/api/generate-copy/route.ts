@@ -1,6 +1,6 @@
 import Groq from 'groq-sdk';
 const groq = new Groq({
-  apiKey: process.env.NEXT_PUBLIC_GROQ_API_KEY
+  apiKey: process.env.GROQ_API_KEY
 });
 export async function POST(request: Request) {
   try {
@@ -61,8 +61,18 @@ Each variation must include:
 Return exactly **5 objects**, each with a description and 3 headlines. No commentary or extra text — JSON only.
 `;
 
+ /*    async function listModels() {
+      try {
+        const models = await groq.models.list(); // lists available models
+      } catch (err) {
+        console.error('Error fetching models:', err);
+      }
+    }
+
+    listModels(); */
+
     const completion = await groq.chat.completions.create({
-      model: 'llama3-70b-8192',
+      model: 'groq/compound-mini',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
     });

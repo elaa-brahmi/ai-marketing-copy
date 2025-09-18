@@ -1,18 +1,20 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-// This function checks for a Firebase ID token in cookies
 export function middleware(request: NextRequest) {
   const idToken = request.cookies.get('firebase_id_token')?.value;
-  // If no token, redirect to sign-up
-  if (!idToken) {
-    console.log('No token found, redirecting to sign-up');
-    return NextResponse.redirect(new URL('/sign-up', request.url));
+  const { pathname } = request.nextUrl;
+
+  if (!idToken && (pathname.startsWith('/generator') || pathname.startsWith('/history'))) {
+    return NextResponse.redirect(new URL('/sign-in', request.url));
   }
-  if(idToken){
+
+  if (idToken && (pathname === '/sign-in' || pathname === '/sign-up')) {
     return NextResponse.redirect(new URL('/generator', request.url));
   }
+
   return NextResponse.next();
 }
+
 export const config = {
-  matcher: ['/generator/:path*', '/generator', '/history/:path*', '/history','/sign-up', '/sign-in'],
+  matcher: ['/generator/:path*', '/generator', '/history/:path*', '/history', '/sign-up', '/sign-in'],
 };

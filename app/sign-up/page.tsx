@@ -1,95 +1,104 @@
 "use client";
 import { auth } from "../../lib/firebase/firebaseConfig";
 import { IconFidgetSpinner } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useCreateUserWithEmailAndPassword,
-  useSendEmailVerification,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
-import { signInWithGoogle } from "@/lib/firebase/auth";
-import { addDoc, serverTimestamp } from "firebase/firestore";
-import { usersCollection } from "../../lib/firebase/firebaseConfig";
-import { saveUser, getUser, getUserByEmail } from "../../lib/users";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { saveUser } from "../../lib/users";
 import { Lock, Mail, User } from "lucide-react";
 import Link from "next/link";
-import { getIdToken } from "firebase/auth";
+import { getIdToken, onAuthStateChanged } from "firebase/auth";
 import { toast } from "sonner"
 
 export default function SignUp() {
-  const router = useRouter();
   const [createUser] = useCreateUserWithEmailAndPassword(auth);
- // const [sendEmailVerification] = useSendEmailVerification(auth);
   const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const onSubmit = async () => {
-    setLoading(true);
-    try {
-      const userCredential = await createUser(email, password);
-      setEmail('');
-      setPassword('');
-      if (userCredential) {
-        const userData = {
-          userId: userCredential.user.uid,
-          user_email: userCredential.user.email || email,
-          username: email.split('@')[0], // Use email prefix as username
-          account_status: 'active'
-        };
-        const userExists= await getUserByEmail(email);
-        if (userExists) {
-          toast.warning("you already have an account , sign in");
-         // alert("you already have an account , sign in ")
-        }
-        else{
-        await saveUser(userData);
-         const token = await getIdToken(userCredential.user, true);
-         const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
-          document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
-          window.location.href = "/";
-        }
-       
-      }
-    } catch (e) {
-      console.error("sign up error ",e);}
+  useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+  });
+  return () => unsubscribe();
+}, []);
+const onSubmit = async () => {
+  setLoading(true);
+  try {
+    const userCredential = await createUser(email, password);
+
+    if (!userCredential) {
+      throw new Error("user having this email already exists");
+    }
+
+    const uid = userCredential.user.uid;
+
+  
+
+    const userData = {
+      userId: uid,
+      user_email: userCredential.user.email || email,
+      username: email.split("@")[0],
+      account_status: "active",
+    };
+    await saveUser(userData);
+
+    const token = await getIdToken(userCredential.user, true);
+    const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString();
+
+    document.cookie = `firebase_id_token=${token}; expires=${expires}; path=/;`;
+
+    toast.success("Account created successfully!");
+    window.location.href = "/";
+  } catch (e: any) {
+    console.error("Sign up error", e);
+    toast.error(e.message || "Sign up failed");
+  } finally {
     setLoading(false);
-  };
+  }
+};
+
+
 
   const handleGoogleSignIn = async () => {
-    setLoading(true);
-    try {
-      const result = await signInWithGoogle();
-      if (result && result.user) {
-        const userData = {
-          userId: result.user.uid,
-          user_email: result.user.email || '',
-          username: result.user.displayName || result.user.email?.split('@')[0] || 'user',
-          account_status: 'active'
-        };
-        const googleEmail=result.user.email as string;
-         const userExists= await getUserByEmail(googleEmail);
-        if (userExists) {
-          console.log("usre exists")
-          toast.warning("you already have an account , sign in ")
-         // alert("you already have an account , sign in ")
-        }
-        else{
-          await saveUser(userData);
-          const token = await getIdToken(result.user, true);
-          const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString(); // 3 hours from now
-          document.cookie = `firebase_id_token=${token};  expires=${expires}; path=/;`;
-          window.location.href = "/";
+  setLoading(true);
+  try {
+    const result = await signInWithGoogle();
 
-        }
+    if (result && result.user) {
+      const { uid, email, displayName } = result.user;
+
+      const userData = {
+        userId: uid,
+        user_email: email || "",
+        username: displayName || email?.split("@")[0] || "user",
+        account_status: "active",
+      };
+
+      // Save to Firestore (only if new)
+      const wasCreated = await saveUser(userData);
+
+      if (wasCreated) {
+      } else {
       }
-    } catch (e) {
-      console.error(e);
+
+      // Save token to cookie
+      const token = await result.user.getIdToken(true);
+      const expires = new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString();
+      document.cookie = `firebase_id_token=${token}; expires=${expires}; path=/; SameSite=Lax; Secure`;
+
+      window.location.href = "/";
     }
+  } catch (e) {
+    console.error("Google Sign-In Error:", e);
+  } finally {
     setLoading(false);
-  };
+  }
+};
+
+
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
       <div className="w-full max-w-md mx-auto">
@@ -97,10 +106,14 @@ export default function SignUp() {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="mx-auto h-12 w-12 flex justify-center items-center rounded-full bg-violet-100 mb-4">
-              <User className="h-6 w-6 text-violet-700"/>
+              <User className="h-6 w-6 text-violet-700" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Create account</h1>
-            <p className="text-gray-600 text-sm sm:text-base">Enter your information to get started</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+              Create account
+            </h1>
+            <p className="text-gray-600 text-sm sm:text-base">
+              Enter your information to get started
+            </p>
           </div>
 
           {loading ? (
@@ -109,19 +122,25 @@ export default function SignUp() {
             </div>
           ) : (
             <>
-              {/* Google Sign Up */}
+              {/* Google Sign-Up */}
               <button
                 className="w-full flex items-center justify-center gap-3 bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 transition-colors duration-200 p-3 sm:p-4 rounded-lg font-medium text-sm sm:text-base mb-6"
                 onClick={handleGoogleSignIn}
               >
-                <img src="icons8-google.svg" className="h-5 w-5 sm:h-6 sm:w-6"/>
+                <img
+                  src="icons8-google.svg"
+                  className="h-5 w-5 sm:h-6 sm:w-6"
+                  alt="Google"
+                />
                 Sign up with Google
               </button>
 
               {/* Divider */}
               <div className="flex items-center justify-center gap-4 text-gray-500 text-xs sm:text-sm mb-6">
                 <hr className="flex-grow border-t border-gray-300" />
-                <span className="whitespace-nowrap px-2">OR CONTINUE WITH EMAIL</span>
+                <span className="whitespace-nowrap px-2">
+                  OR CONTINUE WITH EMAIL
+                </span>
                 <hr className="flex-grow border-t border-gray-300" />
               </div>
 
@@ -160,7 +179,10 @@ export default function SignUp() {
               {/* Sign In Link */}
               <p className="text-center text-gray-600 text-sm sm:text-base">
                 Already have an account?{" "}
-                <Link href="/sign-in" className="text-violet-600 hover:text-violet-700 font-medium">
+                <Link
+                  href="/sign-in"
+                  className="text-violet-600 hover:text-violet-700 font-medium"
+                >
                   Sign in
                 </Link>
               </p>

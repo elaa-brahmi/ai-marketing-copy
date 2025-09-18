@@ -1,14 +1,10 @@
 "use client"
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from '../../../lib/firebase/firebaseConfig';
-import React, { useState, useEffect } from 'react';
-import { redirect } from "next/navigation";
+import React, { useState } from 'react';
 import { ArrowRight, BadgeCheck, Sparkles, Target, Zap } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { MotionDiv, MotionH1, MotionSection } from '../../../components/common/motion-wrapper'
 import {containerVariants, itemVariants} from '@/utils/constants'
 import { IconFidgetSpinner } from "@tabler/icons-react";
-import { cn } from "@/utils/utils";
 import {saveCopy} from '../../../lib/copies'
 import Link from "next/link";
 import { toast } from "sonner"
@@ -21,12 +17,6 @@ export default function Generator(){
   const [generated,setGenerated]=useState(false);
   const [selectedVersion, setSelectedVersion] = useState(0);
   const [lastFormData, setLastFormData] = useState<any>(null);
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) redirect("/sign-in");
-    });
-    return () => unsubscribe();
-  }, []);
 
   const copyTypeOptions = [
     { label: "General Marketing", value: "general-marketing", icon: "🎯" },
