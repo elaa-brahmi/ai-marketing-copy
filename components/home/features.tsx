@@ -9,72 +9,68 @@ export default function FeaturesSection(){
     AOS.init({ once: false, duration: 1000, easing: 'ease-in-out' });
   }, []);
     return(
-        <div className=" bg-blue-100/40">
-        <div className=" md:mx-10 md:mt-15 md:pt-15 md:pb-15 sm:pt-5  
-        sm:mt-8 md:flex md:flex-row md:justify-between md:items-start
-        md-gap-8 sm:flex sm:flex-col sm:items-center sm:gap-4 ">
-                <div className="ms-5  md:ms-5 flex flex-col justify-start md:items-start gap-4">
-                    <h2 className="md:text-3xl text-start font-bold">Everything You Need for 
-                        <span
-                        className="bg-gradient-to-r from-violet-600 via-violet-500 to-violet-400 bg-clip-text text-transparent">
-                       { ' '} Perfect Copy</span>
-                    </h2>
-                    <p className="md:mt-8 md:text-xl text-gray-600">Our AI understands your product, audience, and goals to generate copy that<br/> actually converts. No more writer's block or expensive copywriters.</p>
-                    <div className="md:mt-8 md:flex sm:flex-col items-start gap-4 md:flex-row md:items-between md:justify-start md:gap-8">
-                        <div className="flex flex-col gap-4"> 
-                            <span>
-                                <CheckCircle className="inline mr-2 text-green-500" />
-                                AI-powered content generation
-                            </span>
-                            <span>
-                                
-                                <CheckCircle className="inline mr-2 text-green-500" />
-                                Conversion-optimized copy</span>
-                            <span className="sm:mb-4">
-                                
-                                <CheckCircle className="inline mr-2 text-green-500" />
-                                Brand voice consistency</span>
-                        </div>
-                        <div className="flex flex-col gap-4"> 
-                            <span>
-                                
-                                <CheckCircle className="inline mr-2 text-green-500" />
-                                Industry-specific templates</span>
-                            <span>
-                                
-                                <CheckCircle className="inline mr-2 text-green-500" />
-                                Multiple format outputs</span>
-                            <span>
-                                
-                                <CheckCircle className="inline mr-2 text-green-500" />
-                                Lightning-fast results</span>
-                        </div>  
+        <section className="bg-bg">
+          <div className="mx-auto grid max-w-4xl gap-10 px-6 py-16 md:grid-cols-2 md:items-start md:py-24">
+            <div className="flex flex-col gap-5">
+              <h2 className="text-2xl font-semibold text-foreground sm:text-3xl">
+                Everything you need for <span className="text-primary">perfect copy</span>
+              </h2>
+              <p className="text-base text-muted-foreground sm:text-lg">
+                Our AI understands your product, audience, and goals to generate copy that actually converts. No more writer&apos;s block or expensive copywriters.
+              </p>
+              <div className="mt-2 grid gap-3 sm:grid-cols-2 sm:gap-x-8">
+                <div className="flex flex-col gap-3 text-sm text-muted-foreground">
+                  <span className="flex items-start gap-2">
+                    <CheckCircle className="mt-0.5 h-4 w-4 text-emerald-600" />
+                    AI-powered content generation
+                  </span>
+                  <span className="flex items-start gap-2">
+                    <CheckCircle className="mt-0.5 h-4 w-4 text-emerald-600" />
+                    Conversion-optimized copy
+                  </span>
+                  <span className="flex items-start gap-2">
+                    <CheckCircle className="mt-0.5 h-4 w-4 text-emerald-600" />
+                    Brand voice consistency
+                  </span>
                 </div>
-            </div>
-            <div data-aos="fade-right" className="mt-4">
-               <Card  className=" border-none p-6 mx-5 bg-white/70  hover:shadow-xl transition-shadow duration-300 ease-in-out flex flex-col items-center justify-center">
-               <span className="rounded-4xl shadow-xl bg-gradient-to-br from-violet-900 via-violet-500
-                to-rose-200 h-14 w-14 p-2 flex justify-center items-center 
-                mx-auto text-center animate-bounce">
-               <Sparkles className="h-12 w-12 text-white " />
-               </span>
-                <h3 className="text-xl font-semibold  text-violet-500">AI-Powered</h3>
-                <p className=" text-gray-600 flex flex-col items-center justify-center">
-                   <span> Advanced language models trained on millions of high-converting marketing </span>
-                    <span>campaigns</span>
-                </p>
-                <div className=" sm:p-4 md:p-6 rounded-xl bg-[linear-gradient(135deg,_#f0f4ff_0%,_#e0eaff_50%,_#c7d8ff_100%)]">
-                    <p className="text-sm  flex flex-col items-center justify-center italic text-gray-700">
-                       <span> "Transform your fitness journey with our revolutionary workout app. 
-                        Get personalized </span>
-                       <span> training plans, track your progress, and achieve
-                         your goals faster than ever before."</span>
-                    </p>
+                <div className="flex flex-col gap-3 text-sm text-muted-foreground">
+                  <span className="flex items-start gap-2">
+                    <CheckCircle className="mt-0.5 h-4 w-4 text-emerald-600" />
+                    Industry-specific templates
+                  </span>
+                  <span className="flex items-start gap-2">
+                    <CheckCircle className="mt-0.5 h-4 w-4 text-emerald-600" />
+                    Multiple format outputs
+                  </span>
+                  <span className="flex items-start gap-2">
+                    <CheckCircle className="mt-0.5 h-4 w-4 text-emerald-600" />
+                    Lightning-fast results
+                  </span>
                 </div>
-                
-               </Card>
+              </div>
             </div>
 
-        </div></div>
+            <div data-aos="fade-right" className="md:mt-1">
+              <Card className="border border-gray-400 bg-card shadow-none">
+                <div className="flex flex-col gap-4 px-6 py-7">
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-11 w-11 place-items-center rounded-lg bg-primary text-primary-foreground">
+                      <Sparkles className="h-5 w-5 text-accent" />
+                    </span>
+                    <div>
+                      <h3 className="text-base font-semibold text-accent">AI‑Powered</h3>
+                      <p className="text-sm text-muted-foreground">Trained on millions of high‑converting campaigns.</p>
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-secondary/50 p-5">
+                    <p className="text-sm italic leading-6 text-foreground/85">
+                      “Transform your fitness journey with our revolutionary workout app. Get personalized training plans, track your progress, and achieve your goals faster than ever before.”
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          </div>
+        </section>
     )
 }

@@ -9,15 +9,14 @@ import StartSection from "@/components/home/StartSection";
 
 export default function Home() {
   return (
-   <div>
-    <div className="flex-col">
-      <HeroSection/>
-      <WhyChooseUsSection/>
-      <FeaturesSection/>
-      <TestimonialsSection/>
-      <StartSection/>
-
+    <div className="bg-bg">
+      <div className="flex flex-col">
+        <HeroSection />
+        <WhyChooseUsSection />
+        <FeaturesSection />
+        <TestimonialsSection />
+        <StartSection />
+      </div>
     </div>
-   </div>
   );
 }

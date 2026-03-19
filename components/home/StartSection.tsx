@@ -1,28 +1,26 @@
 
-import { ArrowRight, Dot, Sparkle, Star, Zap } from "lucide-react";
+import { ArrowRight, Zap } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
 export default function StartSection(){
     return(
-        <div className="px-5 leading-10 py-10 md:leading-25 flex flex-col justify-center items-center mt-10 w-full 
-        bg-gradient-to-r from-blue-200 via-purple-300 to-purple-500 transition-all duration-500">
-            <div>
-                <h1 className="md:text-3xl font-bold text-white">Ready to Transform Your Marketing?</h1>
-            </div>
-            <div className="text-white">Join thousands of marketers who are already creating better copy with AI.
-            </div>
-            <div><div className="sm:mt-5 ">
-                <Button
-                className="flex items-center p-3  bg-white  font-semibold 
-                rounded-xl px-8 py-8 hover:shadow-lg ">
-                    <Zap className="h-12 w-12 text-violet-700"/>
-                    <span className="ms-2 text-violet-700 md:text-xl"><Link href="/generator">Generate Your First Copy Now</Link></span>
-                    <ArrowRight className="ms-2 h-10 w-20 text-violet-700"/>
+        <section className="bg-bg">
+          <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+            <div className="rounded-lg border border-black/[0.08] bg-surface px-6 py-10 text-center sm:px-10">
+              <h2 className="font-display text-2xl font-semibold text-text sm:text-3xl">Ready to transform your marketing?</h2>
+              <p className="mt-3 text-base font-body text-muted sm:mt-4 sm:text-lg">
+                Join thousands of marketers who are already creating better copy with AI.
+              </p>
+              <div className="mt-8 flex justify-center">
+                <Button className="h-auto rounded-md bg-accent px-5 py-2.5 text-sm font-body font-medium text-white transition-colors duration-150 hover:bg-accent-hover">
+                  <Zap className="size-4" />
+                  <span><Link href="/generator">Generate your first copy</Link></span>
+                  <ArrowRight className="size-4" />
                 </Button>
-               
-            </div></div>
-
-        </div>
+              </div>
+            </div>
+          </div>
+        </section>
     )
 }

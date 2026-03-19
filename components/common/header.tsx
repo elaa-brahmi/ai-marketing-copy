@@ -26,7 +26,7 @@ import Link from "next/link";
 const Header = () => {
     const [position, setPosition] = React.useState("bottom")
     const [opened, setMenu] = React.useState(false)
-    const [user, loading, error] = useAuthState(auth); //returns [user, loading, error].
+    const [user, loading, error] = useAuthState(auth);
     const pathname = usePathname();
     const hideHeader = pathname === "/sign-in" || pathname === "/sign-up";
     
@@ -45,41 +45,55 @@ const Header = () => {
     const userEmail = user?.email || "";
     const userAvatar = user?.photoURL || "";
 
-    return(
+    return (
         <>
-            <div className="flex justify-between sticky top-0  bg-white/70
-            z-50 pt-3  backdrop-blur h-18 px-3">
-                <span className="flex items-start gap-2 py-2 mx-10">
-                    <span className="md:h-9 md:w-9 sm:h-6 sm:w-6 rounded-xl bg-gradient-to-br from-violet-900 via-violet-500 to-rose-200 p-1">
-                        <Sparkles className="md:h-7 md:w-7 sm:w-4 sm:h-4 text-white"/>
+            <div className="sticky top-0 z-50 border-b border-black/[0.08] bg-bg">
+                <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-6">
+                <span className="flex items-center gap-3">
+                    <span className="grid h-9 w-9 place-items-center rounded-lg bg-accent text-white">
+                        <Sparkles className="h-5 w-5" />
                     </span>
                     <span>
-                        <h1 className="md:text-3xl bg-gradient-to-r from-violet-700 via-blue-300 to-violet-700 font-bold bg-clip-text text-transparent">CopyAI Pro</h1>
+                        <h1 className="font-display text-lg font-semibold tracking-tight text-text">
+                          CopyAI Pro
+                        </h1>
                     </span>
                 </span>
-                <div className="hidden md:flex md:py-auto md:gap-3 me-10 pt-2">
+                <div className="hidden items-center gap-3 md:flex">
                     <Button
-                        className={cn("rounded-xl p-5 text-sm border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200", pathname=="/" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
+                        variant="ghost"
+                        className={cn(
+                          "h-9 rounded-md px-3 text-sm font-medium font-body text-muted hover:text-text",
+                          pathname === "/" && "bg-black/[0.04] text-text"
+                        )}
                         >
                              <Link href="/">Home</Link>
                     </Button>
                     <Button
-                        className={cn("rounded-xl p-5 text-sm border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200", pathname==="/generator" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
+                        variant="ghost"
+                        className={cn(
+                          "h-9 rounded-md px-3 text-sm font-medium font-body text-muted hover:text-text",
+                          pathname === "/generator" && "bg-black/[0.04] text-text"
+                        )}
                         >
                             <Link href="/generator">Generator</Link>
                     </Button>
                     <Button
-                        className={cn("rounded-xl text-sm p-5 border-none text-gray-500 hover:transition-colors hover:shadow hover:text-indigo-700 hover:bg-violet-200", pathname==="/history" && "transition-colors shadow text-indigo-700 bg-violet-200" )}
+                        variant="ghost"
+                        className={cn(
+                          "h-9 rounded-md px-3 text-sm font-medium font-body text-muted hover:text-text",
+                          pathname === "/history" && "bg-black/[0.04] text-text"
+                        )}
                         >
                             <Link href="/history">History</Link>
                     </Button>
                     { user && 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex  items-center cursor-pointer space-x-3 rounded-full p-1 transition-colors hover:bg-accent focus:outline-none ">
+            <button className="flex cursor-pointer items-center gap-3 rounded-md px-2 py-1 text-sm font-body transition-colors hover:bg-black/[0.04] focus:outline-none">
               <Avatar className="h-8 w-8">
                 <AvatarImage src={userAvatar} alt={userName} />
-                <AvatarFallback className="bg-gradient-to-br from-blue-500 to-violet-500 text-white">
+                <AvatarFallback className="bg-black/[0.06] text-text">
                   {userName
                     .split(" ")
                     .map((n) => n[0])
@@ -88,16 +102,16 @@ const Header = () => {
                 </AvatarFallback>
               </Avatar>
               <div className="hidden text-left sm:block">
-                <p className="text-sm font-medium leading-none">{userName}</p>
-                <p className="text-xs text-muted-foreground">{userEmail}</p>
+                <p className="text-sm font-medium leading-none text-text">{userName}</p>
+                <p className="text-xs text-muted">{userEmail}</p>
               </div>
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 bg-white" align="end" forceMount>
+          <DropdownMenuContent className="w-64 border border-black/[0.08] bg-surface shadow-none" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{userName}</p>
-                <p className="text-xs leading-none text-muted-foreground">
+                <p className="text-sm font-medium leading-none text-text">{userName}</p>
+                <p className="text-xs leading-none text-muted">
                   {userEmail}
                 </p>
               </div>
@@ -107,7 +121,7 @@ const Header = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={handleLogout}
-              className="text-red-600 focus:text-red-600 dark:text-red-400 dark:focus:text-red-400"
+              className="text-xs text-red-600 focus:text-red-600 dark:text-red-400 dark:focus:text-red-400"
             >
               <LogOut className="mr-2 h-4 w-4" />
               <span className="cursor-pointer">Sign out</span>
@@ -116,44 +130,45 @@ const Header = () => {
         </DropdownMenu>
         }
                 </div>
-                <div className="flex md:hidden mx-3 mt-3">
+                <div className="flex md:hidden">
                     <DropdownMenu
                     open={opened} onOpenChange={setMenu}  
                    >
                         <DropdownMenuTrigger asChild>
                             <Button
-                            className={cn(" hover:bg-violet-300 hover:cursor-pointer")}
+                            variant="outline"
+                            className={cn("h-9 px-3 rounded-md border border-black/[0.08] bg-surface text-sm font-medium font-body text-text")}
                             > {opened? "X" : "☰"} </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className={cn("w-full min-w-screen transition-all duration-500 ease-in-out me-7",
-                            "overflow-hidden bg-white/10 backdrop-blur z-50",
+                        <DropdownMenuContent className={cn(
+                            "w-full min-w-screen me-7 overflow-hidden border border-black/[0.08] bg-surface shadow-none",
                             opened ? "opacity-100 " : "opacity-0")}> 
                             <DropdownMenuSeparator />
-                            <hr className={cn("w-full text-gray-300 pb-2  ",opened ? "block" : "hidden")}></hr>
+                            <hr className={cn("w-full pb-2 text-black/[0.08]",opened ? "block" : "hidden")}></hr>
                             <DropdownMenuRadioGroup value={position}
                             onValueChange={setPosition}
                             className="flex-1 justify-center items-center">
                             <DropdownMenuRadioItem
                             value="Home"
-                            className={cn("block mx-3 cursor-pointer py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",pathname==="/" && "transition-colors shadow text-indigo-700 bg-violet-200")}
+                            className={cn("mb-1 block mx-3 cursor-pointer rounded-md py-2 text-base font-medium font-body text-muted hover:bg-black/[0.04] hover:text-text",pathname==="/" && "bg-black/[0.04] text-text")}
                             ><Link href="/">Home</Link>
                             </DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="Generator"
-                            className={cn("block  mx-3 cursor-pointer  py-2 mb-1 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200 ",pathname==="/generator" && "shadow transition-colors text-indigo-700 bg-violet-200")}
+                            className={cn("mb-1 block mx-3 cursor-pointer rounded-md py-2 text-base font-medium font-body text-muted hover:bg-black/[0.04] hover:text-text",pathname==="/generator" && "bg-black/[0.04] text-text")}
                             ><Link href="/generator">Generator</Link></DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="History"
-                              className={cn("block  mx-3 py-2 cursor-pointer rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",pathname==="/history" && "shadow transition-colors text-indigo-700 bg-violet-200")}
+                              className={cn("block mx-3 cursor-pointer rounded-md py-2 text-base font-medium font-body text-muted hover:bg-black/[0.04] hover:text-text",pathname==="/history" && "bg-black/[0.04] text-text")}
                             ><Link href="/history">History</Link></DropdownMenuRadioItem>
                                { user && <DropdownMenuRadioItem value="logout"
                             onClick={handleLogout}
-                              className={cn("block cursor-pointer  mx-3 py-2 rounded-md text-base font-medium hover:transition-colors hover:duration-200 hover:text-indigo-700 hover:bg-violet-200",position=="logout" && "shadow transition-colors text-indigo-700 bg-violet-200")}>log out</DropdownMenuRadioItem>
+                              className={cn("block mx-3 cursor-pointer rounded-md py-2 text-base font-medium font-body text-muted hover:bg-black/[0.04] hover:text-text",position=="logout" && "bg-black/[0.04] text-text")}>log out</DropdownMenuRadioItem>
                                }
                             </DropdownMenuRadioGroup>
                         </DropdownMenuContent>
                     </DropdownMenu>
 
                 </div>
-            </div>
+            </div></div>
         </>
     )
 }

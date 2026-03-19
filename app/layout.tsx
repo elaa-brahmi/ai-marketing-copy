@@ -1,18 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans, Fraunces, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
 import { Toaster } from "sonner";
 import AuthSyncer from "@/components/common/AuthSyncer"; 
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const uiSans = DM_Sans({
+  variable: "--font-ui",
+  subsets: ["latin"],
+});
+
+const display = Fraunces({
+  variable: "--font-display",
   subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+  variable: "--font-mono",
   subsets: ["latin"],
 });
 
@@ -28,13 +33,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-      <AuthSyncer /> 
+      <body
+        className={`${uiSans.variable} ${display.variable} ${geistMono.variable} bg-bg font-body text-text`}
+      >
+        <AuthSyncer />
         <div className="relative flex min-h-screen flex-col">
           <Header />
-          <main className="flex-1"><Toaster />{children}</main>
-          
-          <Footer/>
+          <main className="flex-1">
+            <Toaster />
+            <div className="animate-fadeIn">
+              {children}
+            </div>
+          </main>
+          <Footer />
         </div>
       </body>
     </html>

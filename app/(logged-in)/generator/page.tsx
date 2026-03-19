@@ -3,18 +3,18 @@ import React, { useState } from 'react';
 import { ArrowRight, BadgeCheck, Sparkles, Target, Zap } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { MotionDiv, MotionH1, MotionSection } from '../../../components/common/motion-wrapper'
-import {containerVariants, itemVariants} from '@/utils/constants'
+import { containerVariants, itemVariants } from '@/utils/constants'
 import { IconFidgetSpinner } from "@tabler/icons-react";
-import {saveCopy} from '../../../lib/copies'
+import { saveCopy } from '../../../lib/copies'
 import Link from "next/link";
 import { toast } from "sonner"
 
-export default function Generator(){
-  const [output, setOutput] = useState<{description: string, headlines: string[]}[]>([]);
+export default function Generator() {
+  const [output, setOutput] = useState<{ description: string, headlines: string[] }[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedCopyType, setSelectedCopyType] = useState("general-marketing");
-  const [generated,setGenerated]=useState(false);
+  const [generated, setGenerated] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState(0);
   const [lastFormData, setLastFormData] = useState<any>(null);
 
@@ -25,7 +25,7 @@ export default function Generator(){
     { label: "Email Campaign", value: "email-campaign", icon: "✉️" },
     { label: "Advertisement", value: "advertisement", icon: "📈" },
   ];
-  async function chooseSelection(){
+  async function chooseSelection() {
     if (!lastFormData) return;
     const selected = output[selectedVersion];
     const toSave = {
@@ -34,7 +34,8 @@ export default function Generator(){
       headlines: selected.headlines,
     };
     await saveCopy(toSave);
-    toast.success("copy saved!")}
+    toast.success("copy saved!")
+  }
 
   async function handleForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -81,188 +82,243 @@ export default function Generator(){
     }
   }
 
-    return(
-        <>
-        <MotionSection
+  return (
+    <>
+      <MotionSection
         variants={containerVariants}
         initial="hidden"
-        animate="visible" className=" md:flex md:justify-between  mt-7  overflow-x-hidden">
-          <div className="flex flex-col items-start justify-start ms-13">
-          <MotionDiv
-                variants={itemVariants} className=" flex rounded-3xl bg-gradient-to-r from-violet-100/30 via-blue-200/50 to-blue-300/50 px-4 p-2 ">
-                        <Sparkles className="h-6 w-6 rounded-xl text-indigo-700 inline"/>
-                        <p className=" ms-3 text-sm font-semibold text-indigo-700">AI Marketing Copy Generator</p>
+        animate="visible"
+        className="bg-bg"
+      >
+        <div className="mx-auto flex max-w-4xl items-start justify-between px-6 pt-16">
+          <div className="flex flex-col items-start justify-start">
+            <MotionDiv
+              variants={itemVariants}
+              className="inline-flex items-center gap-2 rounded-full border border-black/[0.08] bg-surface px-4 py-1.5 text-xs font-body font-medium text-muted"
+            >
+              <Sparkles className="h-4 w-4 text-accent" />
+              <p className="text-xs font-medium text-text">
+                AI marketing copy generator
+              </p>
             </MotionDiv>
             <MotionH1
-                variants={itemVariants}
-                className="font-bold md:text-3xl text-2xl my-5 text-center"> Create Compelling Marketing Copy</MotionH1>
-            <p className="text-gray-700">Fill in your product details and let AI create high-converting marketing copy for you</p>
+              variants={itemVariants}
+              className="mt-6 max-w-xl font-display text-3xl font-semibold leading-tight tracking-tight text-text md:text-4xl"
+            >
+              Create compelling marketing copy
+            </MotionH1>
+            <p className="mt-3 max-w-md text-sm font-body text-muted">
+              Fill in your product details and let AI create high‑converting marketing
+              copy for you.
+            </p>
           </div>
-          <div className="ms-13 md:me-15">
-            <Button className="rounded-lg sm:mt-10 sm:ms-10 p-3 cursor-pointer" >
-              <BadgeCheck className="inline me-2" />
-              <Link href="/history">View History</Link>
-              </Button>
+          <div className="hidden md:block">
+            <Button className="h-auto rounded-md border border-black/[0.08] bg-surface px-4 py-2.5 text-sm font-body font-medium text-text transition-colors duration-150 hover:bg-black/[0.04]">
+              <BadgeCheck className="mr-2 h-4 w-4" />
+              <Link href="/history">View history</Link>
+            </Button>
           </div>
-        </MotionSection>
-        <div className="flex flex-col md:flex-row ms-10 mt-10 gap-4 sm:gap-7">
-          <div className="p-5 pe-10  rounded-2xl w-full flex flex-col">
-            <h2 className="font-semibold text-xl">
-            <Zap className="h-6 w-6 text-blue-800 animate-bounce inline me-2"/>
-              Product Information
+        </div>
+      </MotionSection>
+      <div className="bg-bg">
+        <div className="mx-auto flex max-w-4xl flex-col gap-8 px-6 pb-16 pt-10 md:flex-row">
+          <div className="flex w-full flex-col rounded-lg border border-black/[0.08] bg-surface p-6">
+            <h2 className="flex items-center text-xl font-semibold text-text">
+              <Zap className="mr-2 h-5 w-5 text-accent" />
+              Product information
             </h2>
-            <form onSubmit={handleForm}>
-            <div className="rounded-lg w-full mx-5 mt-5">
-              <h3 className="text-sm font-semibold text-gray-700">Product Name *</h3>
-              <input
-              className="w-full me-5 mb-5 mt-3 p-4 bg-violet-200/20 rounded-2xl focus:outline-none
-              focus:ring-1 focus:ring-blue-300"
-              type="text"
-              minLength={5}
-              name="productName"
-              placeholder="eg . FitTracker Pro"
-              required
-              />
-            </div>
-            <div className="rounded-lg w-full mx-5">
-              <h3 className="text-sm font-semibold text-gray-700">Product Category *</h3>
-              <select name="category" id="category" className="w-full rounded-2xl focus:outline-none
-              focus:ring-1 focus:ring-blue-300 me-5 bg-violet-200/20 mb-5 mt-3 p-4">
-                <option value="technology-software">Technology & Software</option>
-                <option value="health-fitness">Health & Fitness</option>
-                <option value="fashion-apparel">Fashion & Apparel</option>
-                <option value="food-beverage">Food & Beverage</option>
-                <option value="education-training">Education & Training</option>
-                <option value="finance-insurance">Finance & Insurance</option>
-                <option value="travel-tourism">Travel & Tourism</option>
-                <option value="home-garden">Home & Garden</option>
-                <option value="beauty-cosmetics">Beauty & Cosmetics</option>
-                <option value="entertainment-media">Entertainment & Media</option>
-                <option value="business-services">Business Services</option>
-                <option>other</option>
-              </select>
-            </div>
-            <div className="rounded-lg w-full mx-5">
-              <h3 className="text-sm font-semibold text-gray-700">Product Features & Benefits *</h3>
-              <textarea
-              name="features"
-               className="w-full rounded-2xl focus:outline-none
-              focus:ring-1 focus:ring-blue-300 me-5 bg-violet-200/20 mb-5 mt-3 p-4">
-              </textarea>
-            </div>
-            <div className="rounded-lg w-full mx-5">
-              <h3 className="text-sm font-semibold text-gray-700">Target Audience (Optional)</h3>
-              <input
-              name="audience"
-              className="w-full me-5 mb-5 mt-3 p-4 bg-violet-200/20 rounded-2xl focus:outline-none
-              focus:ring-1 focus:ring-blue-300"
-              type="text" minLength={5}
-              placeholder="eg . Fitness enthousiasts"
-              required
-              />
-            </div>
-            <div className="rounded-lg w-full mx-5">
-              <h3 className="text-sm font-semibold text-gray-700">Tone of Voice</h3>
-              <select name="tone" id="tone" className="w-full rounded-2xl focus:outline-none
-              focus:ring-1 focus:ring-blue-300 me-5 bg-violet-200/20 mb-5 mt-3 p-4">
-                <option value="professional">Professional</option>
-                <option value="friendly">Friendly</option>
-                <option value="exciting">Exciting</option>
-                <option value="luxurious">Luxurious</option>
-                <option value="playful">Playful</option>
-                <option value="authoritative">Authoritative</option>
-              </select>
-            </div>
-            <div className="rounded-lg w-full mx-5">
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">Copy Type</h3>
-              <div className="grid grid-cols-2 gap-3">
-                {copyTypeOptions.map((item) => (
-                  <label
-                    key={item.value}
-                    className={`flex items-center gap-2 border rounded-xl p-3 cursor-pointer transition-all hover:border-blue-500 ${
-                      selectedCopyType === item.value
-                        ? "bg-purple-50 border-purple-600"
-                        : ""
-                    } ${item.value === "advertisement" ? "col-span-2" : ""}`}
-                  >
-                    <input
-                      type="radio"
-                      name="copyType"
-                      value={item.value}
-                      className="hidden"
-                      checked={selectedCopyType === item.value}
-                      onChange={() => setSelectedCopyType(item.value)}
-                    />
-                    <div>{item.icon}</div>
-                    <span className="font-medium">{item.label}</span>
-                  </label>
-                ))}
+            <form onSubmit={handleForm} className="mt-6 space-y-5">
+              <div className="w-full">
+                <h3 className="mb-1.5 block text-sm font-body font-medium text-text">
+                  Product name *
+                </h3>
+                <input
+                  className="w-full rounded-lg border border-black/[0.08] bg-surface px-4 py-2.5 text-sm font-body text-text placeholder:text-muted/60 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                  type="text"
+                  minLength={5}
+                  name="productName"
+                  placeholder="e.g. FitTracker Pro"
+                  required
+                />
               </div>
-              <Button
-                className="cursor-pointer mt-7 w-full flex items-center p-3 bg-violet-200/20  font-semibold
-                rounded-xl px-8 py-8 hover:shadow-lg ">
-                    <Sparkles className="h-12 w-12 text-blue-800"/>
-                    <span className="ms-2 text-blue-800 md:text-xl">Generate Marketing Copy</span>
-                    <ArrowRight className="ms-2 h-10 w-20 text-blue-800"/>
-                </Button>
-            </div>
-            </form>
-          </div>
-          <div className="pe-10 rounded-lg w-full mx-5 mt-5">
-            <h2 className="font-semibold text-xl"><Target className="inline me-2 text-blue-800 "/>Generated Copy
-            </h2>
-              <div className="flex flex-col items-center mt-4">
-                { loading ? (
-                    <IconFidgetSpinner className="animate-spin h-12 w-12 mt-5 text-blue-800"/>
-                ) : error ? (
-                    <p className="text-lg text-red-500">{error}</p>
-                ) : generated ? (
-                    output.length > 0 ? (
-                        <div className="w-full text-left prose dark:prose-invert">
-                          <Button
-                            onClick={chooseSelection} className="cursor-pointer">save version</Button>
-                        
-                            {output.map((gen, index) => (
-                                <label key={index} className={`block cursor-pointer mt-6 border rounded-lg 
-                                p-4 transition-all ${selectedVersion === index ? 
-                                "border-purple-600 bg-violet-200/20 shadow-md" :
-                                "border-gray-200 hover:border-gray-400"}`}>
-                                    <input 
-                                        type="radio"
-                                        name="generated_copy_version"
-                                        className="hidden"
-                                        checked={selectedVersion === index}
-                                        onChange={() => setSelectedVersion(index)}
-                                    />
-                                    <div>
-                                        <h3 className="font-bold text-lg">Description</h3>
-                                        <p className="mt-1 text-sm">{gen.description}</p>
-                                        <h3 className="font-bold text-lg mt-4">Headlines</h3>
-                                        <ul className="list-disc list-inside mt-1">
-                                            {gen.headlines.map((headline, hIndex) => (
-                                                <li key={hIndex} className="text-sm">{headline}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </label>
-                            ))}
-                            </div>
-                    ) : (
-                         <p className="text-lg text-gray-700">No results found. Please try different inputs.</p>
-                    )
-                ) : (
-                    <>
-                        <span className="rounded-4xl shadow-xl bg-gradient-to-br from-blue-100 via-blue-400/80
-                            to-blue-400/70 h-14 w-14 p-2 flex justify-center items-center
-                            mx-auto text-center">
-                          <Sparkles className="h-12 w-12 text-white " />
-                       </span>
-                        <p className="text-lg text-gray-700 mt-4">Fill in the form to generate your marketing copy</p>
-                    </>
-                )}
+              <div className="w-full">
+                <h3 className="mb-1.5 block text-sm font-body font-medium text-text">
+                  Product category *
+                </h3>
+                <select
+                  name="category"
+                  id="category"
+                  className="w-full rounded-lg border border-black/[0.08] bg-surface px-4 py-2.5 text-sm font-body text-text placeholder:text-muted/60 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                >
+                  <option value="technology-software">Technology & Software</option>
+                  <option value="health-fitness">Health & Fitness</option>
+                  <option value="fashion-apparel">Fashion & Apparel</option>
+                  <option value="food-beverage">Food & Beverage</option>
+                  <option value="education-training">Education & Training</option>
+                  <option value="finance-insurance">Finance & Insurance</option>
+                  <option value="travel-tourism">Travel & Tourism</option>
+                  <option value="home-garden">Home & Garden</option>
+                  <option value="beauty-cosmetics">Beauty & Cosmetics</option>
+                  <option value="entertainment-media">Entertainment & Media</option>
+                  <option value="business-services">Business Services</option>
+                  <option>other</option>
+                </select>
+              </div>
+              <div className="w-full">
+                <h3 className="mb-1.5 block text-sm font-body font-medium text-text">
+                  Product features & benefits *
+                </h3>
+                <textarea
+                  name="features"
+                  className="w-full rounded-lg border border-black/[0.08] bg-surface px-4 py-2.5 text-sm font-body text-text placeholder:text-muted/60 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                  placeholder="List key features or benefits, separated by commas or new lines"
+                />
+              </div>
+              <div className="w-full">
+                <h3 className="mb-1.5 block text-sm font-body font-medium text-text">
+                  Target audience (optional)
+                </h3>
+                <input
+                  name="audience"
+                  className="w-full rounded-lg border border-black/[0.08] bg-surface px-4 py-2.5 text-sm font-body text-text placeholder:text-muted/60 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                  type="text"
+                  placeholder="e.g. Fitness enthusiasts"
+                  required
+                />
+              </div>
+              <div className="w-full">
+                <h3 className="mb-1.5 block text-sm font-body font-medium text-text">
+                  Tone of voice
+                </h3>
+                <select
+                  name="tone"
+                  id="tone"
+                  className="w-full rounded-lg border border-black/[0.08] bg-surface px-4 py-2.5 text-sm font-body text-text placeholder:text-muted/60 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+                >
+                  <option value="professional">Professional</option>
+                  <option value="friendly">Friendly</option>
+                  <option value="exciting">Exciting</option>
+                  <option value="luxurious">Luxurious</option>
+                  <option value="playful">Playful</option>
+                  <option value="authoritative">Authoritative</option>
+                </select>
+              </div>
+              <div className="w-full">
+                <h3 className="mb-2 block text-sm font-body font-medium text-text">
+                  Copy type
+                </h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {copyTypeOptions.map((item) => (
+                    <label
+                      key={item.value}
+                      className={`flex cursor-pointer items-center gap-2 rounded-lg border border-black/[0.08] bg-surface p-3 text-sm font-body transition-colors hover:bg-black/[0.02] ${selectedCopyType === item.value
+                          ? "border-accent bg-accent text-white hover:bg-accent-hover"
+                          : ""
+                        } ${item.value === "advertisement" ? "col-span-2" : ""}`}
+                    >
+                      <input
+                        type="radio"
+                        name="copyType"
+                        value={item.value}
+                        className="hidden"
+                        checked={selectedCopyType === item.value}
+                        onChange={() => setSelectedCopyType(item.value)}
+                      />
+                      <div className="text-base">{item.icon}</div>
+                      <span
+                        className={
+                          selectedCopyType === item.value
+                            ? "font-medium text-white"
+                            : "font-medium text-text"
+                        }
+                      >
+                        {item.label}
+                      </span>
+                    </label>
+                  ))}
                 </div>
               </div>
+              <Button
+                className="mt-6 flex h-auto w-full items-center justify-center rounded-md bg-accent px-5 py-2.5 text-sm font-body font-medium text-white transition-colors duration-150 hover:bg-accent-hover"
+              >
+                <Sparkles className="h-5 w-5 text-white" />
+                <span className="ml-2 md:text-sm">Generate marketing copy</span>
+                <ArrowRight className="ml-2 h-4 w-4 text-white" />
+              </Button>
+            </form>
+          </div>
+          <div className="w-full rounded-lg border border-black/[0.08] bg-surface p-6">
+            <h2 className="flex items-center text-xl font-semibold text-text">
+              <Target className="mr-2 h-5 w-5 text-accent" />
+              Generated copy
+            </h2>
+            <div className="mt-4 flex flex-col items-center">
+              {loading ? (
+                <IconFidgetSpinner className="mt-5 h-10 w-10 animate-spin text-accent" />
+              ) : error ? (
+                <p className="text-sm font-body text-red-600">{error}</p>
+              ) : generated ? (
+                output.length > 0 ? (
+                  <div className="mt-2 w-full text-left">
+                    <Button
+                      onClick={chooseSelection}
+                      className="mb-4 h-auto rounded-md border border-black/[0.08] bg-surface px-4 py-2 text-xs font-body font-medium text-text transition-colors duration-150 hover:bg-black/[0.02]"
+                    >
+                      save version
+                    </Button>
+                    {output.map((gen, index) => (
+                      <label
+                        key={index}
+                        className={`mt-4 block cursor-pointer rounded-lg border p-4 transition-colors ${selectedVersion === index
+                            ? "border-accent bg-accent/5"
+                            : "border-black/[0.08] hover:border-black/[0.16]"
+                          }`}
+                      >
+                        <input
+                          type="radio"
+                          name="generated_copy_version"
+                          className="hidden"
+                          checked={selectedVersion === index}
+                          onChange={() => setSelectedVersion(index)}
+                        />
+                        <div className="max-w-prose text-sm font-body leading-relaxed text-text">
+                          <h3 className="text-sm font-semibold text-text">
+                            Description
+                          </h3>
+                          <p className="mt-1 text-sm">{gen.description}</p>
+                          <h3 className="mt-4 text-sm font-semibold text-text">
+                            Headlines
+                          </h3>
+                          <ul className="mt-1 list-disc list-inside">
+                            {gen.headlines.map((headline, hIndex) => (
+                              <li key={hIndex} className="text-sm">
+                                {headline}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm font-body text-muted">
+                    No results found. Please try different inputs.
+                  </p>
+                )
+              ) : (
+                <>
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-black/[0.05]">
+                    <Sparkles className="h-6 w-6 text-accent" />
+                  </span>
+                  <p className="mt-4 text-sm font-body text-muted">
+                    Fill in the form to generate your marketing copy.
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
         </div>
-        </>
-    )
+      </div>
+    </>
+  )
 }

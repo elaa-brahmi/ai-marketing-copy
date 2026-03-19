@@ -1,6 +1,6 @@
-import { ArrowRight, Dot, Sparkles, Star, Zap } from "lucide-react";
+import { ArrowRight, Sparkles, Star, Zap } from "lucide-react";
 import { Button } from "../ui/button";
-import { MotionDiv, MotionH1, MotionH2, MotionSection,MotionSpan } from '../common/motion-wrapper'
+import { MotionDiv, MotionH1, MotionSection } from '../common/motion-wrapper'
 import {containerVariants, itemVariants} from '@/utils/constants'
 import Link from "next/link";
 
@@ -10,62 +10,60 @@ export default function HeroSection(){
        <MotionSection 
         variants={containerVariants}
         initial="hidden"
-        animate="visible" className="bg-blue-100/40 w-full flex flex-col justify-center items-center mx-auto">
-             <MotionDiv
-                variants={itemVariants} className="flex rounded-3xl bg-gradient-to-r from-violet-100/50 via-violet-200/50 to-violet-300/50 px-4 p-2 m-4">
-                <span className="h-8 w-8 rounded-xl  p-1">
-                        <Sparkles className="h-6 w-6 text-indigo-700"/>
+        animate="visible"
+        className="w-full bg-bg"
+      >
+          <div className="mx-auto flex max-w-4xl flex-col items-center px-6 pb-16 pt-16 md:pb-24 md:pt-20">
+            <MotionDiv
+                variants={itemVariants}
+                className="inline-flex items-center gap-2 rounded-full border border-black/[0.08] bg-surface px-4 py-1.5 text-xs font-medium font-body text-muted"
+            >
+                <span className="grid h-7 w-7 place-items-center rounded-full bg-accent text-white">
+                        <Sparkles className="h-4 w-4"/>
                     </span>
                     <span>
-                        <p className=" ms-3 font-semibold text-indigo-700">AI-Powered Marketing Copy Generator</p>
+                        <p className="font-medium text-text">AI‑powered marketing copy generator</p>
                     </span>
             </MotionDiv>
-            <div>
+            <div className="mt-8">
               <MotionH1
-                variants={itemVariants} className="sm:leading-9 md:leading-15 md:text-6xl sm:text-4xl font-bold text-center">
-                    Create Compelling<div className="w-100"></div>
-                    <span className="my-10 text-violet-700">Marketing Copy</span><div className="w-100"></div>
-                    in Seconds
+                variants={itemVariants}
+                className="max-w-3xl text-balance text-center font-display text-4xl font-semibold leading-tight tracking-tight text-text sm:text-5xl md:text-5xl"
+              >
+                    Create compelling <span className="text-accent">marketing copy</span> in seconds
                 </MotionH1>
             </div>
            <MotionDiv
-                variants={itemVariants} className="mt-6 mb-6 sm:mb-6 md:mb-6  mx-2 ">
-                <span className="flex flex-col items-center md:text-1.5xl sm:text-xl  text-gray-700">
-                    <span> Transform your product details into high-converting marketing copy with</span>
-                    <span >our advanced AI. Perfect for ads, websites, emails, and social media </span>
-                    <span >campaigns.</span> 
-                </span>
+                variants={itemVariants}
+                className="mt-4 max-w-xl text-center text-base font-body text-muted md:text-lg"
+            >
+                Transform your product details into high‑converting copy for ads, landing pages, emails, and social campaigns.
             </MotionDiv>
-            <div className="sm:mt-5 ">
-                <Button
-                className="flex items-center p-3  bg-white/70  font-semibold 
-                rounded-full px-8 py-8 hover:shadow-lg ">
-                    <Zap className="h-10 w-10 text-violet-700 animate-bounce"/>
-                    <span className="text-violet-700 md:text-xl"><Link href="/generator">Start Generating Copy</Link></span>
-                    <ArrowRight className="h-10 w-20 text-violet-700"/>
+            <div className="mt-8 flex gap-3">
+                <Button className="bg-accent hover:bg-accent-hover text-white font-body font-medium text-sm py-2.5 px-5 rounded-md h-auto">
+                  <Zap className="size-4" />
+                  <span><Link href="/generator">Start generating copy</Link></span>
+                  <ArrowRight className="size-4" />
                 </Button>
-               
             </div>
             <MotionDiv
-                 className="mt-7 pb-10 md:flex md:flex-row md:gap-10 sm:flex-col justify-between gap-1 items-center sm:gap-3 ">
-                <span className="flex items-center gap-1 text-gray-700">
-                    <Star className="w-4 h-4 text-blue-400" />
-                    4.9/5 rating
+                 className="mt-10 flex flex-col items-center gap-2 text-xs font-body text-muted sm:flex-row sm:gap-6 "
+            >
+                <span className="inline-flex items-center gap-2">
+                    <Star className="h-4 w-4 text-accent" />
+                    <span className="text-text">4.9/5</span> rating
                 </span>
-                <Dot className="w-9 h-9 text-gray-300" />
-                <span className="flex items-center gap-1 text-gray-700">
-                    <span>10k+</span> copies generated
+                <span className="hidden text-muted sm:block">•</span>
+                <span className="inline-flex items-center gap-2">
+                    <span className="text-text">10k+</span> copies generated
                 </span>
-                <Dot className="w-9 h-9 text-gray-300" />
-
-                <span className="flex items-center gap-1 text-gray-700">
-                    <span>500+</span> happy marketers
+                <span className="hidden text-muted sm:block">•</span>
+                <span className="inline-flex items-center gap-2">
+                    <span className="text-text">500+</span> marketers
                 </span>
-
-
-                
             </MotionDiv>
 
+          </div>
         </MotionSection>
     )
 }

@@ -61,17 +61,17 @@ Each variation must include:
 Return exactly **5 objects**, each with a description and 3 headlines. No commentary or extra text — JSON only.
 `;
 
- /*    async function listModels() {
+    async function listModels() {
       try {
         const models = await groq.models.list(); // lists available models
+        console.log('Available models:', models);
       } catch (err) {
         console.error('Error fetching models:', err);
       }
     }
 
-    listModels(); */
-
-    const completion = await groq.chat.completions.create({
+    listModels(); 
+      const completion = await groq.chat.completions.create({
       model: 'groq/compound-mini',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,

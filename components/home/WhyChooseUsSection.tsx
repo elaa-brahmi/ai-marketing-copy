@@ -22,55 +22,58 @@ export default function WhyChooseUsSection() {
   }, [inView]);
 
   return (
-    <div className="md:mx-10 my-5  sm:mt-7 md:mt-17 flex flex-col justify-center items-center ">
-      <div>
-        <MotionH2 variants={itemVariants} className="font-bold md:text-3xl">
-          Why Choose Our AI Copy Generator?
-        </MotionH2>
-      </div>
-
-      <div className="mt-3 md:mt-7 sm:mt-3">
-        <MotionSpan variants={containerVariants} className="text-gray-600 md:text-xl sm:text-lg text-center">
-          <p className="flex flex-col justify-center items-center">
-            <span>Leverage the power of artificial intelligence to create marketing copy that</span>
-            <span>converts.</span>
-          </p>
-        </MotionSpan>
-      </div>
-
-      <div
-        ref={ref}
-        className="grid grid-cols-1 md:grid-cols-3 sm:grid-cols-1 gap-6 mt-7 md:mt-10"
-      >
-        {[
-          {
-            icon: <Target className="h-8 w-8 text-violet-700" />,
-            title: 'Targeted Messaging',
-            desc: 'Create compelling copy that resonates with your specific audience and drives conversions',
-          },
-          {
-            icon: <Rocket className="h-8 w-8 text-violet-700 mb-4" />,
-            title: 'Boost Sales',
-            desc: 'Generate high-converting marketing copy that turns visitors into customers.',
-          },
-          {
-            icon: <Users className="h-8 w-8 text-violet-700 mb-4" />,
-            title: 'Multi-Platform',
-            desc: 'Perfect for websites, ads, emails, social media, and more marketing channels.',
-          },
-        ].map((card, i) => (
-          <Card
-            key={i}
-            className="animated-card border-none p-6 mx-5 bg-white/70 opacity-0 hover:shadow-xl hover:scale-105 transition-shadow duration-300 ease-in-out flex flex-col items-center justify-center"
+    <section className="bg-bg">
+      <div className="mx-auto max-w-4xl px-6 py-16 md:py-24">
+        <div className="mx-auto max-w-2xl text-center">
+          <MotionH2
+            variants={itemVariants}
+            className="font-display text-2xl font-semibold text-text sm:text-3xl"
           >
-            <span className=" rounded-xl bg-[linear-gradient(135deg,_#f0f4ff_0%,_#e0eaff_50%,_#c7d8ff_100%)] h-12 w-12 p-2 flex justify-center  mx-auto " >
-              {card.icon}
-            </span>
-            <h3 className="mt-1 text-lg font-semibold text-gray-800 mb-2">{card.title}</h3>
-            <p className="text-gray-600 text-center">{card.desc}</p>
-          </Card>
-        ))}
+            Why choose our AI copy generator?
+          </MotionH2>
+
+          <MotionSpan
+            variants={containerVariants}
+            className="mt-3 block text-base font-body text-muted sm:mt-4 sm:text-lg"
+          >
+            Leverage the power of artificial intelligence to create marketing copy that converts.
+          </MotionSpan>
+        </div>
+
+        <div
+          ref={ref}
+          className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:gap-6 md:grid-cols-3"
+        >
+          {[
+            {
+              icon: <Target className="h-5 w-5 text-white" />,
+              title: 'Targeted messaging',
+              desc: 'Create compelling copy that resonates with your specific audience and drives conversions.',
+            },
+            {
+              icon: <Rocket className="h-5 w-5 text-white" />,
+              title: 'Boost sales',
+              desc: 'Generate high-converting marketing copy that turns visitors into customers.',
+            },
+            {
+              icon: <Users className="h-5 w-5 text-white" />,
+              title: 'Multi-platform',
+              desc: 'Perfect for websites, ads, emails, social media, and more marketing channels.',
+            },
+          ].map((card, i) => (
+            <Card
+              key={i}
+              className="animated-card flex flex-col items-center justify-center border border-black/[0.08] bg-surface px-6 py-7 opacity-0 shadow-none transition-colors duration-200 ease-out hover:border-black/[0.12]"
+            >
+              <span className="grid h-11 w-11 place-items-center rounded-lg bg-accent text-white">
+                {card.icon}
+              </span>
+              <h3 className="mt-4 text-base font-semibold text-text">{card.title}</h3>
+              <p className="mt-2 text-center text-sm font-body leading-relaxed text-muted">{card.desc}</p>
+            </Card>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
