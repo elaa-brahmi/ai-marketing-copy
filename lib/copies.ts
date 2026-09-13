@@ -1,5 +1,5 @@
 import { db } from './firebase/firebaseConfig';
-import { collection,addDoc,serverTimestamp, query, where, getDocs, deleteDoc, doc, orderBy } from 'firebase/firestore';
+import { collection,addDoc,serverTimestamp, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import {auth} from './firebase/firebaseConfig'
 
 export async function getAllCopies(userId: string) {
@@ -12,7 +12,11 @@ export async function getAllCopies(userId: string) {
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    }));
+    })).sort((firstCopy: any, secondCopy: any) => {
+      const firstTime = firstCopy.createdAt?.toMillis?.() ?? 0;
+      const secondTime = secondCopy.createdAt?.toMillis?.() ?? 0;
+      return secondTime - firstTime;
+    });
   }
   export async function deleteCopyById(id: string) {
     await deleteDoc(doc(db, 'copies', id));

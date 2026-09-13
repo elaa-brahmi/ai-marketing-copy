@@ -40,6 +40,7 @@ export default function Generator() {
   async function handleForm(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setError("");
     setGenerated(false);
     try {
